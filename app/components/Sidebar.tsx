@@ -35,7 +35,7 @@ export default function Sidebar() {
   }
 
   return (
-    <div className="w-[225px] h-dvh bg-white flex-col outline outline-gray-200">
+    <div className="w-[225px] h-dvh bg-white flex-col border-t border-x border-gray-200">
       <div className="pt-6 ml-5">
         <Image
           src="/assets/logo-dark.png"

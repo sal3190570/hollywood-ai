@@ -15,8 +15,15 @@
   }
 }
 
+
+@media (min-width: 1600px) {
+  .moving-marginLeft {
+    margin-left: calc(2.5rem + (100vw - 1600px) / 2.5);
+  }
+}
+
 @media (min-width: 1600px) {
   .search-bar {
-    margin-left: calc(2rem + (100vw - 1600px) / 2.5);
+    margin-left: calc(2.5rem + (100vw - 1600px) / 2.5);
   }
 }

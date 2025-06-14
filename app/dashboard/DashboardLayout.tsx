@@ -28,15 +28,14 @@ export default function DashboardLayout({
       {/* Sidebar */}
       <div
         className={`
-          fixed md:static inset-y-0 left-0 w-[225px] h-dvh bg-white flex-col outline outline-gray-200 z-30
-          transition-transform duration-300 ease-in-out
-          ${
-            sidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } md:translate-x-0
-        `}
+    fixed md:static inset-y-0 left-0 w-[225px] h-dvh bg-white flex-col border-t border-x border-gray-200 z-30
+    transition-transform duration-300 ease-in-out
+    ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0
+  `}
       >
         <Sidebar />
       </div>
+
       {/* Main content */}
       <div className="flex-1">{children}</div>
     </div>
