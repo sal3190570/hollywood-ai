@@ -1,4 +1,3 @@
-// components/AuthListener.tsx
 "use client";
 import { useEffect } from "react";
 import { auth } from "@/firebase";
@@ -11,7 +10,6 @@ export default function AuthListener() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      console.log("Auth state changed:", currentUser);
       if (currentUser) {
         dispatch(
           signInUser({
@@ -26,10 +24,9 @@ export default function AuthListener() {
       }
     });
     return () => {
-      console.log("AuthListener cleanup");
       unsubscribe();
     };
   }, [dispatch]);
 
-  return null; // This component does not render anything
+  return null;
 }
