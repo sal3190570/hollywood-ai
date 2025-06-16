@@ -49,15 +49,15 @@ export default function Page() {
         <LogInModal />
         <SignUpModal />
         <ForgotPasswordModal />
+        {error && <div className="text-red-500">{error}</div>}
+        {movieData && (
+          <div>
+            <h1>{movieData.title}</h1>
+            <p>{movieData.director}</p>
+            {/* Add more fields as needed */}
+          </div>
+        )}
       </MovieLayout>
-      {error && <div className="text-red-500">{error}</div>}
-      {movieData && (
-        <div>
-          <h1>{movieData.title}</h1>
-          <p>{movieData.director}</p>
-          {/* Add more fields as needed */}
-        </div>
-      )}
     </>
   );
 }
