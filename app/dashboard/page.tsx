@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import DashboardLayout from "./DashboardLayout";
-import DbLoginModal from "../components/modals/DbLoginModal";
+import LogInModal from "../components/modals/LogInModal";
 import SignUpModal from "../components/modals/SignUpModal";
 import ForgotPasswordModal from "../components/modals/ForgotPasswordModal";
 import SearchBar from "../components/SearchBar";
@@ -53,7 +53,7 @@ export default function Dashboard() {
       <DashboardTop topMovies={topMovies} isLoading={isLoading} />
 
       {/* Static modals */}
-      <DbLoginModal />
+      <LogInModal />
       <SignUpModal />
       <ForgotPasswordModal />
     </DashboardLayout>

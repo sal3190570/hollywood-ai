@@ -1,5 +1,5 @@
 import FavouritesLayout from "./FavouritesLayout";
-import FaLoginModal from "../components/modals/FaLoginModal";
+import LogInModal from "../components/modals/LogInModal";
 import SignUpModal from "../components/modals/SignUpModal";
 import ForgotPasswordModal from "../components/modals/ForgotPasswordModal";
 import SearchBar from "../components/SearchBar";
@@ -9,7 +9,7 @@ export default function Page() {
     <FavouritesLayout>
       <SearchBar />
 
-      <FaLoginModal />
+      <LogInModal />
       <SignUpModal />
       <ForgotPasswordModal />
     </FavouritesLayout>

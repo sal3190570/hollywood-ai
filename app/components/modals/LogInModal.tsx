@@ -21,7 +21,7 @@ import {
 } from "firebase/auth";
 import { auth } from "@/firebase";
 import { signInUser } from "@/redux/slices/userSlice";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { FirebaseError } from "firebase/app";
 
 export default function LogInModal() {
@@ -32,13 +32,18 @@ export default function LogInModal() {
   const [errorMessage, setErrorMessage] = useState("");
   const isOpen = useSelector((state: RootState) => state.modals.logInModalOpen);
   const dispatch: AppDispatch = useDispatch();
+  const pathname = usePathname();
 
   async function handleGoogleLogin() {
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
       dispatch(closeLogInModal());
-      router.push("/dashboard");
+       if (pathname === "/") {
+        router.push("/dashboard");
+      } else {
+        return;
+      }
     } catch (error) {
       setErrorMessage(getErrorMessage(error));
     }
@@ -48,7 +53,11 @@ export default function LogInModal() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       dispatch(closeLogInModal());
-      router.push("/dashboard");
+      if (pathname === "/") {
+        router.push("/dashboard");
+      } else {
+        return;
+      }
     } catch (error) {
       setErrorMessage(getErrorMessage(error));
     }
@@ -62,7 +71,11 @@ export default function LogInModal() {
         "123456"
       );
       dispatch(closeLogInModal());
-      router.push("/dashboard");
+      if (pathname === "/") {
+        router.push("/dashboard");
+      } else {
+        return;
+      }
     } catch (error) {
       setErrorMessage(getErrorMessage(error));
     }

@@ -2,7 +2,7 @@
 
 import { auth } from "@/firebase";
 import { signOut } from "firebase/auth";
-import { openDbLogInModal, openFaLogInModal } from "@/redux/slices/modalSlice";
+import { openLogInModal } from "@/redux/slices/modalSlice";
 import { RootState } from "@/redux/store";
 import {
   ArrowRightStartOnRectangleIcon,
@@ -119,13 +119,7 @@ export default function Sidebar() {
           ) : (
             <li className="p-0">
               <button
-                onClick={() => {
-                  if (pathname === "/dashboard") {
-                    dispatch(openDbLogInModal());
-                  } else if (pathname === "/favourites") {
-                    dispatch(openFaLogInModal());
-                  }
-                }}
+                onClick={() => dispatch(openLogInModal())}
                 className="w-full cursor-pointer p-2 hover:text-purple-900 hover:bg-gray-300 rounded-xl transition-all flex items-center gap-2"
               >
                 <div className="flex items-center gap-2 ml-2">
