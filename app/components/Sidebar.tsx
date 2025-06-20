@@ -37,16 +37,17 @@ export default function Sidebar() {
   return (
     <div className="w-[225px] h-dvh bg-white flex-col border-t border-x border-gray-200">
       <div className="pt-6 ml-5">
-        <Image
-          src="/assets/logo-dark.png"
-          alt="Logo"
-          className="h-[40px] w-auto"
-          width={100}
-          height={40}
-          quality={100}
-          unoptimized
-          priority
-        />
+        <div className="relative h-[40px] w-[150px]">
+          <Image
+            src="/assets/logo-dark.png"
+            alt="Logo"
+            fill
+            quality={100}
+            unoptimized
+            priority
+            className="object-contain"
+          />
+        </div>
       </div>
       <div className="mt-8 ml-4 flex flex-col space-y-2">
         <h3 className="text-gray-700 text-[11px] font-[400] tracking-widest">

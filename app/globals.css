@@ -21,11 +21,7 @@
   }
 }
 
-@media (min-width: 1600px) {
-  .search-bar {
-    margin-left: calc(2.5rem + (100vw - 1600px) / 2.5);
-  }
-}
+
 
 .mySwiper {
   width: 100%;

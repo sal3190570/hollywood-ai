@@ -5,14 +5,10 @@ import Image from "next/image";
 import React from "react";
 import { MovieItem } from "@/app/dashboard/types";
 import { Skeleton } from "@mui/material";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
+
 import Link from "next/link";
 
 export default function CarouselProp({ item }: { item?: MovieItem | null }) {
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.user.isAuthenticated
-  );
   // Skeleton loading state
   if (!item) {
     return (
@@ -47,14 +43,16 @@ export default function CarouselProp({ item }: { item?: MovieItem | null }) {
               <span className="text-white text-xs font-semibold">Premium</span>
             </div>
           )}
-          <Image
-            src={item.imageLink}
-            height={220}
-            width={160}
-            alt={item.title}
-            className="rounded-xl object-cover"
-            style={{ background: "#eee" }}
-          />
+          {item.imageLink && (
+            <Image
+              src={item.imageLink}
+              height={220}
+              width={160}
+              alt={item.title}
+              className="rounded-xl object-cover"
+              style={{ background: "#eee" }}
+            />
+          )}
         </div>
         <div className="flex flex-col mt-4 px-4">
           <h4 className="font-semibold text-black text-base leading-tight truncate">
