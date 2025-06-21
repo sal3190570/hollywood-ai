@@ -22,7 +22,6 @@ export default function Page() {
     rating: "",
     releaseYear: "",
     type: "",
-
     summary: "",
     tags: [],
     movieDescription: "",

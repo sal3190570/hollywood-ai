@@ -8,7 +8,7 @@ import {
 } from "@/redux/slices/userSlice";
 import { useDispatch } from "react-redux";
 import { onAuthStateChanged } from "firebase/auth";
-import { doc, onSnapshot, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, onSnapshot } from "firebase/firestore";
 import { db } from "@/firebase";
 
 export default function AuthListener() {
@@ -20,17 +20,39 @@ export default function AuthListener() {
     const unsubscribeAuth = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         const userRef = doc(db, "users", currentUser.uid);
-        // Ensure the user document exists
-        await setDoc(
-          userRef,
-          {
-            name: currentUser.displayName || "",
-            email: currentUser.email || "",
-            isPremium: false, // Default value
-            favourites: [], // Default value
-          },
-          { merge: true }
-        );
+        const userDoc = await getDoc(userRef);
+
+        if (!userDoc.exists()) {
+          // Only set favourites for new users
+          await setDoc(
+            userRef,
+            {
+              name: currentUser.displayName || "",
+              email: currentUser.email || "",
+              isPremium: false,
+              favourites: [],
+            },
+            { merge: true }
+          );
+        } else {
+          // For existing users, only update name and email if they have changed
+          // (optional: you can skip this if you don't want to update on every login)
+          const currentData = userDoc.data();
+          if (
+            currentData?.name !== currentUser.displayName ||
+            currentData?.email !== currentUser.email
+          ) {
+            await setDoc(
+              userRef,
+              {
+                name: currentUser.displayName || "",
+                email: currentUser.email || "",
+              },
+              { merge: true }
+            );
+          }
+        }
+
         unsubscribeFirestore = onSnapshot(userRef, (doc) => {
           const data = doc.data();
           dispatch(

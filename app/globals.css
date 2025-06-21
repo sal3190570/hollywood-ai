@@ -21,13 +21,12 @@
   }
 }
 
-
-
 .mySwiper {
   width: 100%;
+  overflow: hidden; /* Prevents double scrollbars */
 }
-
 .mySwiper .swiper-slide {
-  /* Do NOT set width or margin here */
-  padding: 0 !important;
+  width: calc(100% / var(--slides-per-view));
+  max-width: 180px; /* Optional: to cap the max width */
+  min-width: 120px; /* Optional: to set a minimum width */
 }
