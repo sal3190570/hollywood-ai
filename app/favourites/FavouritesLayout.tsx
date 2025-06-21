@@ -11,7 +11,7 @@ export default function FavouritesLayout({
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="flex relative">
+    <div className="flex relative overflow-x-hidden">
       {/* Mobile menu button */}
       <div className="md:hidden p-4 absolute right-0 top-0 z-40">
         <button onClick={() => setSidebarOpen(!sidebarOpen)}>
@@ -38,7 +38,7 @@ export default function FavouritesLayout({
         <Sidebar />
       </div>
       {/* Main content */}
-      <div className="flex-1">{children}</div>
+      <div className="flex-1 min-w-0">{children}</div>
     </div>
   );
 }

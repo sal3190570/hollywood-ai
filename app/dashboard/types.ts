@@ -3,16 +3,18 @@ export type MovieItem = {
   director: string;
   title: string;
   tagLine: string;
-  imageLink: string;
+  imageLink?: string;
   audioLink: string;
   rating: string;
   releaseYear: string;
   type: string;
-  subscriptionRequired: boolean;
+  subscriptionRequired?: boolean;
   summary: string;
   tags: string[];
   movieDescription: string;
 };
+
+
 
 export type CarouselProps = {
   data?: MovieItem[];
