@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../components/UI Props/Sidebar";
 
 export default function FavouritesLayout({
   children,

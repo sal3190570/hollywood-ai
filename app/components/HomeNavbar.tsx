@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import SignInButton from "./SignInButton";
+import SignInButton from "./UI Props/SignInButton";
 
 export default function HomeNavbar() {
   return (

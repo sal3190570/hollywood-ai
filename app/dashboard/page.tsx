@@ -5,7 +5,7 @@ import DashboardLayout from "./DashboardLayout";
 import LogInModal from "../components/modals/LogInModal";
 import SignUpModal from "../components/modals/SignUpModal";
 import ForgotPasswordModal from "../components/modals/ForgotPasswordModal";
-import SearchBar from "../components/SearchBar";
+import SearchBar from "../components/UI Props/SearchBar";
 import DashboardTitle from "../components/DashboardTitle";
 import DashboardSelected from "../components/DashboardSelected";
 import DashboardTop from "../components/DashboardTop";
