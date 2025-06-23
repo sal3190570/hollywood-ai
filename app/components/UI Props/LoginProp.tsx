@@ -3,7 +3,7 @@ import Image from "next/image";
 import React from "react";
 import { useDispatch } from "react-redux";
 
-export default function LoginProp() {
+export default function LoginProp({ text }: { text: string }) {
   const dispatch = useDispatch();
   return (
     <>
@@ -14,9 +14,7 @@ export default function LoginProp() {
           width={450}
           alt="Login Photo"
         />
-        <h2 className="text-2xl font-bold pb-4">
-          Sign in to see your favourite movies
-        </h2>
+        <h2 className="text-2xl font-bold pb-4">{text}</h2>
         <button
           className="w-[150px] h-fit py-2
           cursor-pointer bg-[#2E006B] text-white rounded-lg"

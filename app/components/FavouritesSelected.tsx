@@ -16,7 +16,9 @@ export default function FavouritesSelected({
   return (
     <div className="w-full px-4 moving-marginLeft md:max-w-[1200px] md:ml-10">
       {isAuthenticated && favouriteMoviesData.length === 0 && <NoFavourites />}
-      {!isAuthenticated && <LoginProp />}
+      {!isAuthenticated && (
+        <LoginProp text={"Sign in to see your favourite movies"} />
+      )}
       {isAuthenticated && <Carousel data={favouriteMoviesData || []} />}
     </div>
   );
