@@ -218,7 +218,7 @@ export default function LogInModal() {
                 </span>
               </div>
               <button
-                className="w-[300px] h-10 bg-purple-800 mt-10 text-white font-semibold
+                className="w-[300px] h-10 bg-[#2E006B] mt-10 text-white font-semibold
               rounded-full cursor-pointer"
                 onClick={() => handleLogin()}
               >

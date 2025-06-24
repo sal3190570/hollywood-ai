@@ -97,12 +97,15 @@ export default function Sidebar() {
               <span>Help & Support</span>
             </div>
           </li>
-          <li className="cursor-pointer p-2 hover:text-purple-900 hover:bg-gray-300 rounded-xl transition-all flex items-center gap-2">
+          <Link
+            href={"/settings"}
+            className="cursor-pointer p-2 hover:text-purple-900 hover:bg-gray-300 rounded-xl transition-all flex items-center gap-2"
+          >
             <div className="flex items-center gap-2 ml-2">
               <Cog6ToothIcon className="w-5 h-5 mt-[2px] -ml-2" />
               <span>Settings</span>
             </div>
-          </li>
+          </Link>
           {isAuthenticated ? (
             <>
               <li className="p-0">

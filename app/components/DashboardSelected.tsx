@@ -1,5 +1,3 @@
-"use client";
-
 import { MovieItem } from "../dashboard/types";
 import Carousel from "./Carousel";
 

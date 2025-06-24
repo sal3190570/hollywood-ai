@@ -1,26 +1,26 @@
 import React from "react";
-import PlansLayout from "./PlansLayout";
+import SettingsLayout from "./SettingsLayout";
 import SearchBar from "../components/UI Props/SearchBar";
 import LogInModal from "../components/modals/LogInModal";
 import SignUpModal from "../components/modals/SignUpModal";
 import ForgotPasswordModal from "../components/modals/ForgotPasswordModal";
-import ComparePlans from "../components/ComparePlans";
-import PlansTitle from "../components/PlansTitle";
-import PlansAccordion from "../components/PlansAccordion";
+
+import SettingsTitle from "../components/SettingsTitle";
+import SettingsContent from "../components/SettingsContent";
 
 export default function page() {
   return (
     <>
-      <PlansLayout>
+      <SettingsLayout>
         {/* Always visible components */}
         <SearchBar />
-        <PlansTitle />
-        <ComparePlans />
-        <PlansAccordion />
+        <SettingsTitle />
+        <SettingsContent />
+
         <LogInModal />
         <SignUpModal />
         <ForgotPasswordModal />
-      </PlansLayout>
+      </SettingsLayout>
     </>
   );
 }

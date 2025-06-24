@@ -3,7 +3,8 @@ import { useState } from "react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import Sidebar from "../components/UI Props/Sidebar";
 
-export default function FavouritesLayout({
+
+export default function SettingsLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -28,17 +29,18 @@ export default function FavouritesLayout({
       {/* Sidebar */}
       <div
         className={`
-          fixed md:static inset-y-0 left-0 w-[225px] h-dvh bg-white flex-col outline outline-gray-200 z-30
+          fixed inset-y-0 left-0 w-[225px] h-dvh bg-white flex-col border-t border-x border-gray-200 z-30
           transition-transform duration-300 ease-in-out
-          ${
-            sidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } md:translate-x-0
+          ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
+          md:translate-x-0
         `}
       >
         <Sidebar />
       </div>
       {/* Main content */}
-      <div className="flex-1 min-w-0">{children}</div>
+      <div className="flex-1 min-w-0 md:ml-[225px] min-h-screen flex flex-col">
+        {children}
+      </div>
     </div>
   );
 }

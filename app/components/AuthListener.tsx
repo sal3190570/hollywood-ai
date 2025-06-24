@@ -8,14 +8,23 @@ import {
 } from "@/redux/slices/userSlice";
 import { useDispatch } from "react-redux";
 import { onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc, setDoc, onSnapshot } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  setDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+  onSnapshot,
+} from "firebase/firestore";
 import { db } from "@/firebase";
 
 export default function AuthListener() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    let unsubscribeFirestore: (() => void) | null = null;
+    let unsubscribeUser: (() => void) | null = null;
 
     const unsubscribeAuth = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
@@ -23,7 +32,6 @@ export default function AuthListener() {
         const userDoc = await getDoc(userRef);
 
         if (!userDoc.exists()) {
-          // Only set favourites for new users
           await setDoc(
             userRef,
             {
@@ -35,8 +43,6 @@ export default function AuthListener() {
             { merge: true }
           );
         } else {
-          // For existing users, only update name and email if they have changed
-          // (optional: you can skip this if you don't want to update on every login)
           const currentData = userDoc.data();
           if (
             currentData?.name !== currentUser.displayName ||
@@ -53,7 +59,27 @@ export default function AuthListener() {
           }
         }
 
-        unsubscribeFirestore = onSnapshot(userRef, (doc) => {
+        // Check for active Stripe subscriptions
+        const subscriptionsRef = collection(
+          db,
+          "customers",
+          currentUser.uid,
+          "subscriptions"
+        );
+        const q = query(
+          subscriptionsRef,
+          where("status", "in", ["active", "trialing"])
+        );
+        const subscriptionDocs = await getDocs(q);
+        const hasActiveSubscription = !subscriptionDocs.empty;
+
+        await setDoc(
+          userRef,
+          { isPremium: hasActiveSubscription },
+          { merge: true }
+        );
+
+        unsubscribeUser = onSnapshot(userRef, (doc) => {
           const data = doc.data();
           dispatch(
             signInUser({
@@ -67,8 +93,10 @@ export default function AuthListener() {
           );
           dispatch(setPremiumStatus(data?.isPremium || false));
         });
+
+        dispatch(setPremiumStatus(hasActiveSubscription));
       } else {
-        if (unsubscribeFirestore) unsubscribeFirestore();
+        if (unsubscribeUser) unsubscribeUser();
         dispatch(signOutUser());
         dispatch(setPremiumStatus(false));
       }
@@ -76,7 +104,7 @@ export default function AuthListener() {
 
     return () => {
       unsubscribeAuth();
-      if (unsubscribeFirestore) unsubscribeFirestore();
+      if (unsubscribeUser) unsubscribeUser();
     };
   }, [dispatch]);
 
