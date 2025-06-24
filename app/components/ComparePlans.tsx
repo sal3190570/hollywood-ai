@@ -45,7 +45,7 @@ export default function ComparePlans() {
                   </ul>
                 </div>
                 <div className="absolute bottom-4 w-full h-10 flex justify-center">
-                  <ChoosePlanButton />
+                  <ChoosePlanButton priceId={"price_1RdIgAFwmWJPh90tPtlYk7Fz"} />
                 </div>
               </div>
             </div>
@@ -56,7 +56,7 @@ export default function ComparePlans() {
               <div className="relative flex flex-col w-full h-full">
                 <div className="absolute flex flex-col gap-2 top-5 left-6">
                   <h3 className="flex text-xl">
-                    $<span className="text-6xl font-semibold">190</span> Monthly
+                    $<span className="text-6xl font-semibold">190</span> Yearly
                   </h3>
                   <span className="text-sm text-gray-400">VIP+</span>
                 </div>
@@ -85,7 +85,7 @@ export default function ComparePlans() {
                   </ul>
                 </div>
                 <div className="absolute bottom-4 w-full h-10 flex justify-center">
-                  <ChoosePlanButton />
+                  <ChoosePlanButton priceId={"price_1RdIkGFwmWJPh90tLMwi77R4"}/>
                 </div>
               </div>
             </div>
