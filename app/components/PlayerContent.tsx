@@ -1,8 +1,6 @@
 // PlayerContent.jsx
-"use client";
 
-import { useParams } from "next/navigation";
-import React, { useState } from "react";
+import React from "react";
 import { MovieItem } from "../dashboard/types";
 import PlayerProp from "./UI Props/PlayerProp";
 import { AudioPlayerProvider } from "./audio/AudioPlayerContext";

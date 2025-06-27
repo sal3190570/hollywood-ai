@@ -15,25 +15,27 @@ export default function page() {
   const [movieData, setMovieData] = useState<MovieItem>(defaultMovieItem);
   const [error, setError] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
-  useEffect(() => {
-    async function fetchMovieData() {
-      try {
-        const { data } = await axios.get(
-          `https://advanced-internship-api-production.up.railway.app/movies/${id}`
-        );
 
-        if (data.data) {
-          setMovieData(data.data);
-        } else if (data.id) {
-          setMovieData(data);
-        } else if (data.status === "fail") {
-          setError(data.message || "Movie not found");
-        }
-      } catch (error) {
-        setError("Failed to fetch movie");
-        console.error("Error fetching data:", error);
+  async function fetchMovieData() {
+    try {
+      const { data } = await axios.get(
+        `https://advanced-internship-api-production.up.railway.app/movies/${id}`
+      );
+
+      if (data.data) {
+        setMovieData(data.data);
+      } else if (data.id) {
+        setMovieData(data);
+      } else if (data.status === "fail") {
+        setError(data.message || "Movie not found");
       }
+    } catch (error) {
+      setError("Failed to fetch movie");
+      console.error("Error fetching data:", error);
     }
+  }
+
+  useEffect(() => {
     fetchMovieData();
   }, [id]);
 
