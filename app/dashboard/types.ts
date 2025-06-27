@@ -14,8 +14,21 @@ export type MovieItem = {
   movieDescription: string;
 };
 
-
-
 export type CarouselProps = {
   data?: MovieItem[];
+};
+
+export const defaultMovieItem = {
+  id: "",
+  director: "",
+  title: "",
+  tagLine: "",
+  imageLink: "",
+  audioLink: "",
+  rating: "",
+  releaseYear: "",
+  type: "",
+  summary: "",
+  tags: [],
+  movieDescription: "",
 };

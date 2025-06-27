@@ -3,6 +3,7 @@ const initialState = {
   signUpModalOpen: false,
   logInModalOpen: false,
   forgotPasswordModalOpen: false,
+  searchModalOpen: false,
 };
 const modalSlice = createSlice({
   name: "modals",
@@ -26,6 +27,12 @@ const modalSlice = createSlice({
     closeForgotPasswordModal: (state) => {
       state.forgotPasswordModalOpen = false;
     },
+    openSearchModal: (state) => {
+      state.searchModalOpen = true;
+    },
+    closeSearchModal: (state) => {
+      state.searchModalOpen = false;
+    },
   },
 });
 export const {
@@ -35,5 +42,7 @@ export const {
   closeLogInModal,
   openForgotPasswordModal,
   closeForgotPasswordModal,
+  openSearchModal,
+  closeSearchModal,
 } = modalSlice.actions;
 export default modalSlice.reducer;
