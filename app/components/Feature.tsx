@@ -25,7 +25,7 @@ export default function Feature() {
             {/* Feature 1 */}
             <div className="p-4 group">
               <div className="flex gap-5 items-start">
-                <div className="flex-shrink-0 w-11 h-11 rounded-lg bg-gray-100 flex items-center justify-center transition-colors duration-300 group-hover:bg-gray-800 group-hover:text-white">
+                <div className="shrink-0 w-11 h-11 rounded-lg bg-gray-100 flex items-center justify-center transition-colors duration-300 group-hover:bg-gray-800 group-hover:text-white">
                   <FontAwesomeIcon icon={faPen} className="w-4 h-4" />
                 </div>
                 <div>
@@ -41,7 +41,7 @@ export default function Feature() {
             {/* Feature 2 */}
             <div className="p-4 group">
               <div className="flex gap-5 items-start">
-                <div className="flex-shrink-0 w-11 h-11 rounded-lg bg-gray-100 flex items-center justify-center transition-colors duration-300 group-hover:bg-gray-800 group-hover:text-white">
+                <div className="shrink-0 w-11 h-11 rounded-lg bg-gray-100 flex items-center justify-center transition-colors duration-300 group-hover:bg-gray-800 group-hover:text-white">
                   <FontAwesomeIcon icon={faCirclePlay} className="w-4 h-4" />
                 </div>
                 <div>
@@ -57,7 +57,7 @@ export default function Feature() {
             {/* Feature 3 */}
             <div className="p-4 group">
               <div className="flex gap-5 items-start">
-                <div className="flex-shrink-0 w-11 h-11 rounded-lg bg-gray-100 flex items-center justify-center transition-colors duration-300 group-hover:bg-gray-800 group-hover:text-white">
+                <div className="shrink-0 w-11 h-11 rounded-lg bg-gray-100 flex items-center justify-center transition-colors duration-300 group-hover:bg-gray-800 group-hover:text-white">
                   <FontAwesomeIcon icon={faBarsStaggered} className="w-4 h-4" />
                 </div>
                 <div>
@@ -73,7 +73,7 @@ export default function Feature() {
             {/* Feature 4 */}
             <div className="p-4 group">
               <div className="flex gap-5 items-start">
-                <div className="flex-shrink-0 w-11 h-11 rounded-lg bg-gray-100 flex items-center justify-center transition-colors duration-300 group-hover:bg-gray-800 group-hover:text-white">
+                <div className="shrink-0 w-11 h-11 rounded-lg bg-gray-100 flex items-center justify-center transition-colors duration-300 group-hover:bg-gray-800 group-hover:text-white">
                   <FontAwesomeIcon icon={faMobile} className="w-4 h-4" />
                 </div>
                 <div>
@@ -90,7 +90,7 @@ export default function Feature() {
             {/* Feature 5 */}
             <div className="p-4 group">
               <div className="flex gap-5 items-start">
-                <div className="flex-shrink-0 w-11 h-11 rounded-lg bg-gray-100 flex items-center justify-center transition-colors duration-300 group-hover:bg-gray-800 group-hover:text-white">
+                <div className="shrink-0 w-11 h-11 rounded-lg bg-gray-100 flex items-center justify-center transition-colors duration-300 group-hover:bg-gray-800 group-hover:text-white">
                   <FontAwesomeIcon icon={faShield} className="w-4 h-4" />
                 </div>
                 <div>
@@ -106,7 +106,7 @@ export default function Feature() {
             {/* Feature 6 */}
             <div className="p-4 group">
               <div className="flex gap-5 items-start">
-                <div className="flex-shrink-0 w-11 h-11 rounded-lg bg-gray-100 flex items-center justify-center transition-colors duration-300 group-hover:bg-gray-800 group-hover:text-white">
+                <div className="shrink-0 w-11 h-11 rounded-lg bg-gray-100 flex items-center justify-center transition-colors duration-300 group-hover:bg-gray-800 group-hover:text-white">
                   <FontAwesomeIcon
                     icon={faHandsHoldingCircle}
                     className="w-4 h-4"

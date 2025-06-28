@@ -50,10 +50,10 @@ export default function Sidebar() {
         </div>
       </div>
       <div className="mt-8 ml-4 flex flex-col space-y-2">
-        <h3 className="text-gray-700 text-[11px] font-[400] tracking-widest">
+        <h3 className="text-gray-700 text-[11px] font-normal tracking-widest">
           LINKS
         </h3>
-        <ul className="text-gray-700 text-[15px] flex flex-col gap-2 w-[200px] font-[400]">
+        <ul className="text-gray-700 text-[15px] flex flex-col gap-2 w-[200px] font-normal">
           <Link
             className="cursor-pointer p-2 hover:text-purple-900 hover:bg-gray-300 rounded-xl transition-all"
             href={"/dashboard"}
@@ -87,10 +87,10 @@ export default function Sidebar() {
         </ul>
       </div>
       <div className="mt-8 ml-6 flex flex-col space-y-2">
-        <h3 className="text-gray-700 text-[11px] font-[400] tracking-widest">
+        <h3 className="text-gray-700 text-[11px] font-normal tracking-widest">
           EXTRAS
         </h3>
-        <ul className="text-gray-700 text-[15px] flex flex-col gap-2 w-[200px] font-[400]">
+        <ul className="text-gray-700 text-[15px] flex flex-col gap-2 w-[200px] font-normal">
           <li className="cursor-not-allowed p-2 hover:text-purple-900 hover:bg-gray-300 rounded-xl transition-all flex items-center gap-2">
             <div className="flex items-center gap-2 ml-2">
               <QuestionMarkCircleIcon className="w-5 h-5 mt-[2px] -ml-2" />

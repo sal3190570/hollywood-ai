@@ -4,7 +4,7 @@ import SignInButton from "./UI Props/SignInButton";
 
 export default function HomeNavbar() {
   return (
-    <nav className="flex sticky top-0 z-[999] justify-between items-center h-[76px] px-[30px] py-[18px] bg-white shadow-[0_3px_12px_rgba(0,0,0,0.1)]">
+    <nav className="flex sticky top-0 z-999 justify-between items-center h-[76px] px-[30px] py-[18px] bg-white shadow-[0_3px_12px_rgba(0,0,0,0.1)]">
       <Link href="#">
         <Image
           src="/assets/logo-dark.png"

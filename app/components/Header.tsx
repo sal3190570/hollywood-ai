@@ -6,7 +6,7 @@ import HeaderButton from "./HeaderButton";
 
 export default function Header() {
   return (
-    <header className="bg-gradient-to-r from-[#70acd4] via-[#ca71ff] via-[#8469cc] via-[#4882e6] via-[#8469cc] to-[#70acd4] animate-gradient-animation flex items-center relative py-[208px] h-[90vh]">
+    <header className="bg-linear-to-r from-[#70acd4] via-[#ca71ff] via-[#8469cc] via-[#4882e6] via-[#8469cc] to-[#70acd4] animate-gradient-animation flex items-center relative py-[208px] h-[90vh]">
       <div className="max-w-[1280px] m-auto py-[20px] flex flex-col justify-center items-center">
         {/* Header Widget */}
         <div className="px-[13px] py-[5px] pb-[3px] bg-white/15 rounded-[20px] text-[10px] leading-[11px] font-bold flex items-center gap-[6px] mb-[32px]">

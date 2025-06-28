@@ -14,7 +14,7 @@ export default function FavouritesTitle({
             {favouriteMoviesIds.length} Movies
           </span>
           <div
-            className="absolute -bottom-4 left-0 w-[calc(100%+2rem)] h-[1px] bg-gray-300"
+            className="absolute -bottom-4 left-0 w-[calc(100%+2rem)] h-px bg-gray-300"
             style={{ width: "90%" }}
           ></div>
         </div>

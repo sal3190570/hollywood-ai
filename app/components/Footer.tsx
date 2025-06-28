@@ -23,7 +23,7 @@ export default function Footer() {
       {/* CTA Section */}
       <section id="cta" className="relative">
         <svg
-          className="absolute top-[-1px] left-0 right-0 w-full h-auto block fill-[#f9f9fb]"
+          className="absolute -top-px left-0 right-0 w-full h-auto block fill-[#f9f9fb]"
           preserveAspectRatio="none"
           width="1440"
           height="86"

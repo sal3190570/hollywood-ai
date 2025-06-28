@@ -23,23 +23,23 @@ export default function ComparePlans() {
                 <div className="absolute top-35 left-6">
                   <ul className="flex flex-col gap-3.5">
                     <li className="flex items-center gap-2 text-sm">
-                      <CheckIcon className="w-4 h-4 p-[1px] text-black bg-purple-200 rounded-full" />
+                      <CheckIcon className="w-4 h-4 p-px text-black bg-purple-200 rounded-full" />
                       <span>Premium Support </span>
                     </li>
                     <li className="flex items-center gap-2 text-sm">
-                      <CheckIcon className="w-4 h-4 p-[1px] text-black bg-purple-200 rounded-full" />
+                      <CheckIcon className="w-4 h-4 p-px text-black bg-purple-200 rounded-full" />
                       <span>Access 100+ Summaries</span>
                     </li>
                     <li className="flex items-center gap-2 text-sm">
-                      <CheckIcon className="w-4 h-4 p-[1px] text-black bg-purple-200 rounded-full" />
+                      <CheckIcon className="w-4 h-4 p-px text-black bg-purple-200 rounded-full" />
                       <span>Higher Quality Audio</span>
                     </li>
                     <li className="flex items-center gap-2 text-sm">
-                      <CheckIcon className="w-4 h-4 p-[1px] text-black bg-purple-200 rounded-full" />
+                      <CheckIcon className="w-4 h-4 p-px text-black bg-purple-200 rounded-full" />
                       <span>License For Commercial Use</span>
                     </li>
                     <li className="flex items-center gap-2 text-sm">
-                      <CheckIcon className="w-4 h-4 p-[1px] text-black bg-purple-200 rounded-full" />
+                      <CheckIcon className="w-4 h-4 p-px text-black bg-purple-200 rounded-full" />
                       <span>2 Supported Devices</span>
                     </li>
                   </ul>
@@ -63,23 +63,23 @@ export default function ComparePlans() {
                 <div className="absolute top-35 left-6">
                   <ul className="flex flex-col gap-3.5">
                     <li className="flex items-center gap-2 text-sm">
-                      <CheckIcon className="w-4 h-4 p-[1px] text-black bg-purple-200 rounded-full" />
+                      <CheckIcon className="w-4 h-4 p-px text-black bg-purple-200 rounded-full" />
                       <span>Premium Support</span>
                     </li>
                     <li className="flex items-center gap-2 text-sm">
-                      <CheckIcon className="w-4 h-4 p-[1px] text-black bg-purple-200 rounded-full" />
+                      <CheckIcon className="w-4 h-4 p-px text-black bg-purple-200 rounded-full" />
                       <span>Access 100+ Summaries</span>
                     </li>
                     <li className="flex items-center gap-2 text-sm">
-                      <CheckIcon className="w-4 h-4 p-[1px] text-black bg-purple-200 rounded-full" />
+                      <CheckIcon className="w-4 h-4 p-px text-black bg-purple-200 rounded-full" />
                       <span>Highest Quality Audio</span>
                     </li>
                     <li className="flex items-center gap-2 text-sm">
-                      <CheckIcon className="w-4 h-4 p-[1px] text-black bg-purple-200 rounded-full" />
+                      <CheckIcon className="w-4 h-4 p-px text-black bg-purple-200 rounded-full" />
                       <span>License For Commercial Use</span>
                     </li>
                     <li className="flex items-center gap-2 text-sm">
-                      <CheckIcon className="w-4 h-4 p-[1px] text-black bg-purple-200 rounded-full" />
+                      <CheckIcon className="w-4 h-4 p-px text-black bg-purple-200 rounded-full" />
                       <span>3 Supported Devices</span>
                     </li>
                   </ul>

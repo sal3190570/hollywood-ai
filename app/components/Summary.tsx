@@ -15,7 +15,7 @@ export default function Summary() {
             <h2 className="text-[28px] sm:text-[32px] md:text-[39px] lg:text-[48px] font-bold text-gray-900 tracking-[-0.8px] sm:tracking-[-1px] md:tracking-[-1.17px] leading-[32px] sm:leading-[36px] md:leading-[40.95px] lg:leading-[52px] mb-6 md:mb-[25px]">
               Say goodbye to 2 hour movies.
             </h2>
-            <p className="text-[14px] sm:text-[16px] md:text-[17px] lg:text-[20px] leading-[1.4] sm:leading-[1.5] md:leading-[1.47em] lg:leading-[1.6em] text-gray-500">
+            <p className="text-[14px] sm:text-[16px] md:text-[17px] lg:text-[20px] leading-[1.4] sm:leading-normal md:leading-[1.47em] lg:leading-[1.6em] text-gray-500">
               HollywoodAI is designed to help you get high-quality summaries of
               your favourite movies instantly, without breaking a sweat. With
               our intuitive interface and powerful features, you can easily
