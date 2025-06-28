@@ -1,4 +1,6 @@
 "use client";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { db } from "@/firebase";
 import { useAudioPlayerContext } from "@/app/components/audio/AudioPlayerContext";
 import { MovieItem } from "@/app/dashboard/types";
 import {
@@ -103,8 +105,8 @@ export default function PlayerProp({
     }
   };
 
-  // --- FIXED: Fetch audio as a blob and create an object URL ---
   async function fetchAudioFile() {
+    if (!movieData || !movieData.audioLink || !movieData.id) return;
     if (movieData && movieData.audioLink) {
       try {
         const response = await axios.get(
