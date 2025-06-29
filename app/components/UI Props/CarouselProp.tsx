@@ -11,7 +11,7 @@ export default function CarouselProp({
 }: {
   item?: MovieItemWithDuration | null;
 }) {
-  // Format time as MM:SS
+  // Format time as MM:SS, safely handling null/undefined
   const formatTime = (time: number | null | undefined) => {
     if (time == null || isNaN(time)) return "00:00";
     const minutes = Math.floor(time / 60);
@@ -47,7 +47,10 @@ export default function CarouselProp({
 
   // Real card
   return (
-    <Link href={`/movie/${item.id}`}>
+    <Link
+      href={`/movie/${item.id}`}
+      aria-label={`View details for ${item.title}`}
+    >
       <div className="flex flex-col relative h-[400px] max-w-[180px] mx-auto rounded-xl overflow-hidden">
         <div className="flex mt-6 justify-center relative">
           {item.subscriptionRequired && (
@@ -55,7 +58,7 @@ export default function CarouselProp({
               <span className="text-white text-xs font-semibold">Premium</span>
             </div>
           )}
-          {item.imageLink && (
+          {item.imageLink ? (
             <Image
               src={item.imageLink}
               height={220}
@@ -64,10 +67,12 @@ export default function CarouselProp({
               className="rounded-xl object-cover"
               style={{ background: "#eee" }}
             />
+          ) : (
+            <div className="h-[220px] w-[160px] bg-gray-200 rounded-xl" />
           )}
         </div>
         <div className="flex flex-col mt-4 px-4">
-          <h4 className="font-semibold text-black text-base leading-tight ">
+          <h4 className="font-semibold text-black text-base leading-tight">
             {item.title}
           </h4>
           <span className="text-xs text-gray-700">{item.director}</span>

@@ -182,10 +182,11 @@ export default function PlayerProp({
         ) : safeMovieData.imageLink && safeMovieData.imageLink.trim() !== "" ? (
           <Image
             src={safeMovieData.imageLink}
-            height={30}
-            width={30}
+            height={40}
+            width={40}
             alt={`${safeMovieData.title} image`}
             priority
+            className="w-auto"
           />
         ) : (
           <div className="h-[30px] w-[30px] bg-gray-200 rounded-full" />

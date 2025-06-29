@@ -84,9 +84,13 @@ export default function Dashboard() {
     }));
   }, [topMovies, movieDurations]);
 
+  const allMovies = useMemo<MovieItemWithDuration[]>(() => {
+    return [...mergedSelectedMovies, ...mergedTopMovies];
+  }, [mergedSelectedMovies, mergedTopMovies]);
+
   return (
     <DashboardLayout>
-      <SearchBar />
+      <SearchBar movies={allMovies} />
       <DashboardTitle />
       <DashboardSelected
         selectedMovies={mergedSelectedMovies}

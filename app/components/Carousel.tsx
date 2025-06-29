@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -13,39 +13,16 @@ export default function Carousel({
 }: {
   data?: (MovieItemWithDuration | null)[];
 }) {
-  const wrapperRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleResize = () => {
-      let spv = 2;
-      if (window.innerWidth >= 1280) spv = 6;
-      else if (window.innerWidth >= 1024) spv = 5;
-      else if (window.innerWidth >= 640) spv = 3;
-      else if (window.innerWidth >= 480) spv = 3;
-      if (wrapperRef.current) {
-        wrapperRef.current.style.setProperty(
-          "--slides-per-view",
-          spv.toString()
-        );
-      }
-    };
-    window.addEventListener("resize", handleResize);
-    handleResize(); // Set on mount
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
   return (
-    <div ref={wrapperRef}>
+    <div>
       <Swiper
-        slidesPerView="auto"
         spaceBetween={10}
         centeredSlides={false}
-        pagination={{
-          clickable: true,
-        }}
+        pagination={{ clickable: true }}
         modules={[Pagination]}
         className="mySwiper"
         breakpoints={{
+          320: { slidesPerView: 2, spaceBetween: 10 },
           480: { slidesPerView: 3, spaceBetween: 10 },
           640: { slidesPerView: 3, spaceBetween: 15 },
           1024: { slidesPerView: 5, spaceBetween: 20 },
@@ -53,7 +30,10 @@ export default function Carousel({
         }}
       >
         {data.map((item, index) => (
-          <SwiperSlide key={item ? item.id : `skeleton-${index}`}>
+          <SwiperSlide
+            key={item ? item.id : `skeleton-${index}`}
+            className="!w-auto"
+          >
             <CarouselProp item={item} />
           </SwiperSlide>
         ))}

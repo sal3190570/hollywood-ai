@@ -13,7 +13,7 @@ export default function PlayerContent({
   error: string;
   isLoading: boolean;
 }) {
-  if (!movieData) return null; // Optional, but good practice
+  if (!movieData) return null;
 
   return (
     <div className="w-full flex flex-col px-8 mt-5 pb-4">
