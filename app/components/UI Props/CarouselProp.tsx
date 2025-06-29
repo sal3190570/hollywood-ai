@@ -66,6 +66,7 @@ export default function CarouselProp({
               alt={item.title}
               className="rounded-xl object-cover"
               style={{ background: "#eee" }}
+              priority
             />
           ) : (
             <div className="h-[220px] w-[160px] bg-gray-200 rounded-xl" />
