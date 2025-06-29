@@ -4,17 +4,12 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import CarouselProp from "./UI Props/CarouselProp";
 import { Pagination } from "swiper/modules";
-import { MovieItemWithDuration } from "../types";
+import CarouselProp from "./UI Props/CarouselProp";
 
-export default function Carousel({
-  data = [],
-}: {
-  data?: (MovieItemWithDuration | null)[];
-}) {
+export default function Carousel({ data = [] }) {
   return (
-    <div>
+    <div className="w-full max-w-full min-w-0">
       <Swiper
         spaceBetween={10}
         centeredSlides={false}
@@ -30,10 +25,7 @@ export default function Carousel({
         }}
       >
         {data.map((item, index) => (
-          <SwiperSlide
-            key={item ? item.id : `skeleton-${index}`}
-            className="!w-auto"
-          >
+          <SwiperSlide key={item ? item.id : `skeleton-${index}`}>
             <CarouselProp item={item} />
           </SwiperSlide>
         ))}
