@@ -24,8 +24,8 @@ interface AudioPlayerContextType {
   setDuration: Dispatch<SetStateAction<number>>;
   timeProgress: number;
   setTimeProgress: Dispatch<SetStateAction<number>>;
-  audioRef: React.RefObject<HTMLAudioElement>;
-  progressBarRef: React.RefObject<HTMLInputElement>;
+  audioRef: React.RefObject<HTMLAudioElement | null>;
+  progressBarRef: React.RefObject<HTMLInputElement | null>; // <-- FIXED HERE
 }
 
 const AudioPlayerContext = createContext<AudioPlayerContextType | undefined>(
