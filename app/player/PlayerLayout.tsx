@@ -4,6 +4,8 @@ import { Bars3Icon } from "@heroicons/react/24/outline";
 import Sidebar from "../components/UI Props/Sidebar";
 import SearchBar from "../components/UI Props/SearchBar";
 import PlayerProp from "../components/UI Props/PlayerProp";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 export default function PlayerLayout({
   children,
@@ -11,7 +13,7 @@ export default function PlayerLayout({
   children: React.ReactNode;
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
+  const allMovies = useSelector((state: RootState) => state.movies.allMovies);
   return (
     <div className="h-screen w-screen overflow-hidden">
       {/* Sidebar */}
@@ -45,7 +47,7 @@ export default function PlayerLayout({
           md:left-[225px] md:w-[calc(100vw-225px)]
         "
       >
-        <SearchBar position="relative" />
+        <SearchBar movies={allMovies} />
         <div
           className="overflow-y-auto"
           style={{ height: "calc(100vh - 80px - 80px)" }}

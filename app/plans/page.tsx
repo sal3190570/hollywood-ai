@@ -7,13 +7,14 @@ import ForgotPasswordModal from "../components/modals/ForgotPasswordModal";
 import ComparePlans from "../components/ComparePlans";
 import PlansTitle from "../components/PlansTitle";
 import PlansAccordion from "../components/PlansAccordion";
+import Plans_Settings_SearchBar from "../components/Plans&SettingsSearchBar";
 
 export default function page() {
   return (
     <>
       <PlansLayout>
         {/* Always visible components */}
-        <SearchBar />
+        <Plans_Settings_SearchBar />
         <PlansTitle />
         <ComparePlans />
         <PlansAccordion />

@@ -12,7 +12,7 @@ import { db } from "@/firebase";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import axios from "axios";
-import { MovieItem } from "../types";
+import { MovieItem, MovieItemWithDuration } from "../types";
 import { useEffect, useState } from "react";
 
 export default function Page() {
@@ -28,6 +28,7 @@ export default function Page() {
   const isAuthenticated = useSelector(
     (state: RootState) => state.user.isAuthenticated
   );
+  const allMovies = useSelector((state: RootState) => state.movies.allMovies);
 
   async function fetchMovieData(id: string): Promise<MovieItem | null> {
     try {
@@ -78,13 +79,16 @@ export default function Page() {
 
   return (
     <FavouritesLayout>
-      <SearchBar />
+      <SearchBar movies={allMovies} />
       <FavouritesTitle favouriteMoviesIds={favouriteMoviesIds} />
+
       <FavouritesSelected
         favouriteMoviesData={favouriteMoviesData}
         isLoading={isLoading}
         isAuthenticated={isAuthenticated}
+        allMovies={allMovies}
       />
+
       <LogInModal />
       <SignUpModal />
       <ForgotPasswordModal />

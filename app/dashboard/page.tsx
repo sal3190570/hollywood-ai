@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
+import { useDispatch } from "react-redux";
+import { setAllMovies } from "@/redux/slices/moviesSlice"; // <-- Import the action
 import DashboardLayout from "./DashboardLayout";
 import LogInModal from "../components/modals/LogInModal";
 import SignUpModal from "../components/modals/SignUpModal";
@@ -15,11 +17,12 @@ import { collection, getDocs } from "@firebase/firestore";
 import { db } from "@/firebase";
 
 // Add this type if not already in your types.ts
-type MovieItemWithDuration = MovieItem & {
+export type MovieItemWithDuration = MovieItem & {
   duration: number | null;
 };
 
 export default function Dashboard() {
+  const dispatch = useDispatch(); // <-- Get the dispatch function
   const [selectedMovies, setSelectedMovies] = useState<MovieItem[]>([]);
   const [topMovies, setTopMovies] = useState<MovieItem[]>([]);
   const [movieDurations, setMovieDurations] = useState<MovieDuration[]>([]);
@@ -87,6 +90,12 @@ export default function Dashboard() {
   const allMovies = useMemo<MovieItemWithDuration[]>(() => {
     return [...mergedSelectedMovies, ...mergedTopMovies];
   }, [mergedSelectedMovies, mergedTopMovies]);
+
+  useEffect(() => {
+    if (!isLoading) {
+      dispatch(setAllMovies(allMovies));
+    }
+  }, [allMovies, isLoading, dispatch]);
 
   return (
     <DashboardLayout>

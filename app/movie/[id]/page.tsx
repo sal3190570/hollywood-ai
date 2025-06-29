@@ -12,6 +12,8 @@ import ForgotPasswordModal from "@/app/components/modals/ForgotPasswordModal";
 import MovieDetails from "@/app/components/MovieDetails";
 import { doc, getDoc } from "@firebase/firestore";
 import { db } from "@/firebase";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 export default function Page() {
   const { id } = useParams();
@@ -19,7 +21,7 @@ export default function Page() {
   const [error, setError] = useState<string>("");
   const [movieDuration, setMovieDuration] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
+  const allMovies = useSelector((state: RootState) => state.movies.allMovies);
   async function fetchMovieData() {
     try {
       const { data } = await axios.get(
@@ -66,7 +68,7 @@ export default function Page() {
   return (
     <>
       <MovieLayout>
-        <SearchBar />
+        <SearchBar movies={allMovies} />
         <MovieDetails
           movieData={movieData}
           error={error}

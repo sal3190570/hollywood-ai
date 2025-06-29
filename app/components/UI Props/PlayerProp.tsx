@@ -1,5 +1,5 @@
 "use client";
-import { doc, Firestore, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/firebase";
 import { useAudioPlayerContext } from "@/app/components/audio/AudioPlayerContext";
 import { MovieItem } from "@/app/types";

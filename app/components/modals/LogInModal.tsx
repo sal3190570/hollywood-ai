@@ -6,7 +6,6 @@ import { AppDispatch, RootState } from "@/redux/store";
 import {
   closeLogInModal,
   openForgotPasswordModal,
-  openLogInModal,
   openSignUpModal,
 } from "@/redux/slices/modalSlice";
 import { EyeIcon } from "@heroicons/react/24/outline";
@@ -39,7 +38,7 @@ export default function LogInModal() {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
       dispatch(closeLogInModal());
-       if (pathname === "/") {
+      if (pathname === "/") {
         router.push("/dashboard");
       } else {
         return;

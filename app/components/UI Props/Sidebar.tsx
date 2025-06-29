@@ -28,7 +28,6 @@ export default function Sidebar() {
   async function handleSignOut() {
     try {
       await signOut(auth);
-      // Redux state will be updated via AuthListener.onAuthStateChanged
     } catch (error) {
       console.error("Error signing out:", error);
     }
