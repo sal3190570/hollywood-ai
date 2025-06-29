@@ -12,6 +12,7 @@ import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
   onAuthStateChanged,
+  signInWithEmailAndPassword,
   signInWithPopup,
 } from "firebase/auth";
 import { auth } from "@/firebase";
@@ -25,34 +26,56 @@ export default function SignUpModal() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [socialLoading, setSocialLoading] = useState<null | "google" | "guest">(
+    null
+  );
+  const [signUpLoading, setSignUpLoading] = useState(false);
   const isOpen = useSelector(
     (state: RootState) => state.modals.signUpModalOpen
   );
   const dispatch: AppDispatch = useDispatch();
 
   async function handleGoogleSignUp() {
+    setSocialLoading("google");
     try {
       const provider = new GoogleAuthProvider();
-      const result = await signInWithPopup(auth, provider);
+      await signInWithPopup(auth, provider);
       dispatch(closeSignUpModal());
       router.push("/dashboard");
     } catch (error) {
       setErrorMessage(getErrorMessage(error));
+    } finally {
+      setSocialLoading(null);
+    }
+  }
+
+  async function handleGuestSignUp() {
+    setSocialLoading("guest");
+    try {
+      await signInWithEmailAndPassword(
+        auth,
+        "guest123450000@gmail.com",
+        "123456"
+      );
+      dispatch(closeSignUpModal());
+      router.push("/dashboard");
+    } catch (error) {
+      setErrorMessage(getErrorMessage(error));
+    } finally {
+      setSocialLoading(null);
     }
   }
 
   async function handleSignUp() {
+    setSignUpLoading(true);
     try {
-      const userCredentials = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-
+      await createUserWithEmailAndPassword(auth, email, password);
       dispatch(closeSignUpModal());
       router.push("/dashboard");
     } catch (error) {
       setErrorMessage(getErrorMessage(error));
+    } finally {
+      setSignUpLoading(false);
     }
   }
 
@@ -92,6 +115,33 @@ export default function SignUpModal() {
     });
     return unsubscribe;
   }, []);
+
+  // Spinner SVG (Tailwind CSS)
+  function Spinner({ color = "black" }) {
+    return (
+      <svg
+        className={`animate-spin h-5 w-5 text-${color}`}
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle
+          className="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          strokeWidth="4"
+        ></circle>
+        <path
+          className="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+        ></path>
+      </svg>
+    );
+  }
+
   return (
     <>
       <Modal
@@ -99,10 +149,7 @@ export default function SignUpModal() {
         onClose={() => dispatch(closeSignUpModal())}
         className="flex justify-center items-center"
       >
-        <div
-          className="relative w-full h-full sm:w-[380px] sm:h-[600px]
-         bg-white sm:rounded-xl outline-none"
-        >
+        <div className="relative w-full h-full sm:w-[380px] sm:h-[600px] bg-white sm:rounded-xl outline-none">
           <XMarkIcon
             className="absolute right-2 w-7 mt-2 ml-5 cursor-pointer"
             onClick={() => dispatch(closeSignUpModal())}
@@ -115,16 +162,13 @@ export default function SignUpModal() {
                   {errorMessage}
                 </span>
               )}
-              <div
-                className="flex flex-col w-[200px] h-fit
-               space-y-8 mt-8 text-[15px] text-gray-800 mr-20"
-              >
+              <div className="flex flex-col w-[200px] h-fit space-y-8 mt-8 text-[15px] text-gray-800 mr-20">
                 <button
-                  className="cursor-pointer w-[200px] flex gap-3 items-center
-                transition-all duration-200 hover:-translate-y-1"
-                  onClick={() => handleGoogleSignUp()}
+                  className="cursor-pointer w-[200px] flex items-center justify-center transition-all duration-200 hover:-translate-y-1 disabled:opacity-60 relative"
+                  onClick={handleGoogleSignUp}
+                  disabled={!!socialLoading || signUpLoading}
                 >
-                  <span>
+                  <span className="absolute left-[calc(50%-60px)] flex items-center">
                     <Image
                       src={"/assets/google.svg"}
                       height={18}
@@ -132,20 +176,28 @@ export default function SignUpModal() {
                       alt="Google Logo"
                     />
                   </span>
-                  Sign up with Google
+                  <span className="ml-[60px]">
+                    {socialLoading === "google" ? (
+                      <Spinner />
+                    ) : (
+                      "Sign up with Google"
+                    )}
+                  </span>
                 </button>
                 <button
-                  className="cursor-pointer w-[200px] flex gap-3 items-center
-                transition-all duration-200 hover:-translate-y-1"
+                  className="cursor-pointer w-[200px] flex items-center justify-center transition-all duration-200 hover:-translate-y-1 disabled:opacity-60 relative"
+                  onClick={handleGuestSignUp}
+                  disabled={!!socialLoading || signUpLoading}
                 >
-                  <span>
+                  <span className="absolute left-[calc(50%-60px)] flex items-center">
                     <UserIcon className="w-[20px] h-[20px]" />
                   </span>
-                  Login as Guest
+                  <span className="ml-[60px]">
+                    {socialLoading === "guest" ? <Spinner /> : "Login as Guest"}
+                  </span>
                 </button>
               </div>
               <span className="mt-8 text-sm text-gray-500"> or </span>
-
               <div className="mt-8 space-y-4 text-sm">
                 <div className="w-[340px]">
                   <h2 className="text-[15px]  text-blue-900 mb-2">
@@ -174,7 +226,7 @@ export default function SignUpModal() {
                         setErrorMessage("");
                       }}
                       value={password}
-                    />{" "}
+                    />
                     <div
                       onClick={() => setShowPassword(!showPassword)}
                       className="w-7 h-7 text-gray-400 cursor-pointer"
@@ -185,11 +237,18 @@ export default function SignUpModal() {
                 </div>
               </div>
               <button
-                className="w-[300px] h-10 bg-purple-800 mt-2 text-white font-semibold
-              rounded-full cursor-pointer"
-                onClick={() => handleSignUp()}
+                className="w-[300px] h-10 bg-purple-800 mt-2 text-white font-semibold rounded-full cursor-pointer flex items-center justify-center disabled:opacity-60"
+                onClick={handleSignUp}
+                disabled={!!socialLoading || signUpLoading}
               >
-                Sign Up
+                {signUpLoading ? (
+                  <span className="flex items-center">
+                    <Spinner color="white" />
+                    <span className="ml-3">Signing Up...</span>
+                  </span>
+                ) : (
+                  "Sign Up"
+                )}
               </button>
               <div className="flex text-xs mt-3">
                 <span>
