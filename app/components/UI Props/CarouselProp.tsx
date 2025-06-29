@@ -2,11 +2,25 @@
 import { ClockIcon, StarIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import React from "react";
-import { MovieItem } from "@/app/dashboard/types";
+import { MovieItemWithDuration } from "@/app/types";
 import { Skeleton } from "@mui/material";
 import Link from "next/link";
 
-export default function CarouselProp({ item }: { item?: MovieItem | null }) {
+export default function CarouselProp({
+  item,
+}: {
+  item?: MovieItemWithDuration | null;
+}) {
+  // Format time as MM:SS
+  const formatTime = (time: number | null | undefined) => {
+    if (time == null || isNaN(time)) return "00:00";
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes.toString().padStart(2, "0")}:${seconds
+      .toString()
+      .padStart(2, "0")}`;
+  };
+
   // Skeleton loading state
   if (!item) {
     return (
@@ -60,7 +74,7 @@ export default function CarouselProp({ item }: { item?: MovieItem | null }) {
           <div className="flex gap-4 mt-2">
             <div className="flex items-center text-xs gap-1 text-gray-700">
               <ClockIcon className="h-4 w-4" />
-              <span>{/* Add duration here if available */}</span>
+              <span>{formatTime(item.duration)}</span>
             </div>
             <div className="flex items-center text-xs gap-1 text-gray-700">
               <StarIcon className="h-4 w-4" />

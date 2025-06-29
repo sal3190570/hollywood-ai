@@ -1,11 +1,11 @@
-import { MovieItem } from "../dashboard/types";
+import { MovieItemWithDuration } from "../types";
 import Carousel from "./Carousel";
 
 export default function DashboardSelected({
   selectedMovies,
   isLoading,
 }: {
-  selectedMovies: MovieItem[];
+  selectedMovies: MovieItemWithDuration[];
   isLoading?: boolean;
 }) {
   return (

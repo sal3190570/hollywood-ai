@@ -1,8 +1,8 @@
 "use client";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, Firestore, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/firebase";
 import { useAudioPlayerContext } from "@/app/components/audio/AudioPlayerContext";
-import { MovieItem } from "@/app/dashboard/types";
+import { MovieItem } from "@/app/types";
 import {
   ForwardIcon,
   PlayCircleIcon,
@@ -105,25 +105,56 @@ export default function PlayerProp({
     }
   };
 
-  async function fetchAudioFile() {
+  async function fetchAudioFileAndDuration() {
     if (!movieData || !movieData.audioLink || !movieData.id) return;
-    if (movieData && movieData.audioLink) {
-      try {
-        const response = await axios.get(
-          `https://advanced-internship-api-production.up.railway.app/${movieData.audioLink}`,
-          { responseType: "blob" }
-        );
-        const audioUrl = URL.createObjectURL(response.data);
-        setAudioFile(audioUrl);
-      } catch (error) {
-        setError("Failed to fetch audio file");
-        console.log(error);
-      }
-    }
-  }
 
+    // 1. Check FireStore for duration
+    const docRef = doc(db, "movies", movieData.id);
+    const docSnap = await getDoc(docRef);
+
+    let fireStoreDuration = docSnap.exists() ? docSnap.data().duration : null;
+
+    // 2. Fetch audio file as blob and set audioFile state
+    let audioUrl = "";
+    try {
+      const response = await axios.get(
+        `https://advanced-internship-api-production.up.railway.app/${movieData.audioLink}`,
+        { responseType: "blob" }
+      );
+
+      audioUrl = URL.createObjectURL(response.data);
+      setAudioFile(audioUrl);
+    } catch (error) {
+      setError("Failed to fetch audio file");
+      console.log(error);
+      return;
+    }
+
+    // 3. If duration already exists in Firestore, set it and return
+    if (fireStoreDuration) {
+      setDuration(fireStoreDuration);
+      return;
+    }
+
+    // 4. Otherwise, extract duration from audio metadata and store in Firestore
+    const tempAudio = new window.Audio(audioUrl);
+    tempAudio.addEventListener(
+      "loadedmetadata",
+      async () => {
+        const duration = tempAudio.duration;
+        setDuration(duration);
+
+        if (docSnap.exists()) {
+          await updateDoc(docRef, { duration });
+        } else {
+          await setDoc(docRef, { duration }, { merge: true });
+        }
+      },
+      { once: true }
+    );
+  }
   useEffect(() => {
-    fetchAudioFile();
+    fetchAudioFileAndDuration();
     return () => {
       if (audioFile) {
         URL.revokeObjectURL(audioFile);

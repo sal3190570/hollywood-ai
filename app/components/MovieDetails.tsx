@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { MovieItem } from "../dashboard/types";
+import { MovieItem } from "../types";
 import Image from "next/image";
 import { ClockIcon, StarIcon } from "@heroicons/react/24/outline";
 import { CalendarIcon } from "@heroicons/react/24/solid";
@@ -23,10 +23,12 @@ export default function MovieDetails({
   movieData,
   isLoading,
   error,
+  movieDuration,
 }: {
   movieData: MovieItem;
   isLoading?: boolean;
   error: string;
+  movieDuration: number | null;
 }) {
   const [isFavourite, setIsFavourite] = useState(false);
   const isAuthenticated = useSelector(
@@ -36,6 +38,16 @@ export default function MovieDetails({
   const userId = useSelector((state: RootState) => state.user.uid);
   const dispatch = useDispatch();
   const router = useRouter();
+
+  // Format time as MM:SS
+  const formatTime = (time: number | null | undefined) => {
+    if (time == null || isNaN(time)) return "00:00";
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes.toString().padStart(2, "0")}:${seconds
+      .toString()
+      .padStart(2, "0")}`;
+  };
 
   async function handleFavourite() {
     if (!isAuthenticated) {
@@ -117,7 +129,7 @@ export default function MovieDetails({
             <div className="flex flex-col gap-2 h-[25px] w-[200px] justify-between mt-2">
               <div className="flex items-center text-[14px] gap-1 text-black">
                 <ClockIcon className="h-4 w-4" />
-                <span> {movieData.rating}</span>
+                <span> {formatTime(movieDuration)}</span>
               </div>
               <div className="flex items-center text-[14px] gap-1 text-black">
                 <CalendarIcon className="h-4 w-4" />

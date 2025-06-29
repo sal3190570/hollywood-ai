@@ -8,7 +8,7 @@ import ForgotPasswordModal from "@/app/components/modals/ForgotPasswordModal";
 import PlayerContent from "@/app/components/PlayerContent";
 import axios from "axios";
 import { useParams } from "next/navigation";
-import { defaultMovieItem, MovieItem } from "@/app/dashboard/types";
+import { defaultMovieItem, MovieItem } from "@/app/types";
 
 export default function page() {
   const { id } = useParams();

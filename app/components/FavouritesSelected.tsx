@@ -1,6 +1,6 @@
 import React from "react";
 import Carousel from "./Carousel";
-import { MovieItem } from "../dashboard/types";
+import { MovieItem } from "../types";
 import NoFavourites from "./UI Props/NoFavourites";
 import LoginProp from "./UI Props/LoginProp";
 

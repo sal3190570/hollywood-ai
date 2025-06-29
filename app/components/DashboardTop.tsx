@@ -1,11 +1,11 @@
-import { MovieItem } from "../dashboard/types";
+import { MovieItemWithDuration } from "../types";
 import Carousel from "./Carousel";
 
 export default function DashboardTop({
   topMovies,
   isLoading,
 }: {
-  topMovies: MovieItem[];
+  topMovies: MovieItemWithDuration[];
   isLoading?: boolean;
 }) {
   return (

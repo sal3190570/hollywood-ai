@@ -1,7 +1,7 @@
 // PlayerContent.jsx
 
 import React from "react";
-import { MovieItem } from "../dashboard/types";
+import { MovieItem } from "../types";
 import PlayerProp from "./UI Props/PlayerProp";
 import { AudioPlayerProvider } from "./audio/AudioPlayerContext";
 

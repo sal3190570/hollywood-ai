@@ -12,7 +12,7 @@ import { db } from "@/firebase";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import axios from "axios";
-import { MovieItem } from "../dashboard/types";
+import { MovieItem } from "../types";
 import { useEffect, useState } from "react";
 
 export default function Page() {
