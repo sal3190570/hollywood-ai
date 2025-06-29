@@ -17,7 +17,7 @@ export const loadCheckout = async (priceId) => {
     const addCurrentCheckout = await addDoc(collectionRef, {
       price: priceId,
       allow_promotion_codes: true,
-      success_url: `${window.location.origin}/settings`,
+      success_url: `${window.location.origin}/dashboard`,
       cancel_url: window.location.href,
     });
     // Reference to the checkout session document we just created
