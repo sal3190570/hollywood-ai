@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import PlayerLayout from "../PlayerLayout";
 import LogInModal from "@/app/components/modals/LogInModal";
@@ -10,28 +9,32 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import { defaultMovieItem, MovieItem } from "@/app/types";
 
-export default function page() {
+export default function Page() {
   const { id } = useParams();
   const [movieData, setMovieData] = useState<MovieItem>(defaultMovieItem);
   const [error, setError] = useState<string>("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   async function fetchMovieData() {
+    setIsLoading(true);
     try {
       const { data } = await axios.get(
         `https://advanced-internship-api-production.up.railway.app/movies/${id}`
       );
 
-      if (data.data) {
-        setMovieData(data.data);
-      } else if (data.id) {
-        setMovieData(data);
-      } else if (data.status === "fail") {
-        setError(data.message || "Movie not found");
+      // Determine which data to use
+      const movie = data.data || data;
+
+      setMovieData(movie);
+      if (movie.imageLink && movie.imageLink.trim() !== "") {
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
       }
     } catch (error) {
       setError("Failed to fetch movie");
       console.error("Error fetching data:", error);
+      setIsLoading(false);
     }
   }
 

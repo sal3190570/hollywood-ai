@@ -12,12 +12,13 @@ import {
 import axios from "axios";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import Skeleton from "@mui/material/Skeleton";
 
 export default function PlayerProp({
   movieData,
   isLoading,
 }: {
-  movieData: MovieItem;
+  movieData?: MovieItem;
   isLoading: boolean;
 }) {
   const [audioFile, setAudioFile] = useState("");
@@ -33,6 +34,22 @@ export default function PlayerProp({
     audioRef,
     progressBarRef,
   } = useAudioPlayerContext();
+
+  // Safe default for movieData
+  const safeMovieData = movieData || {
+    id: "",
+    director: "",
+    title: "",
+    tagLine: "",
+    imageLink: "",
+    audioLink: "",
+    rating: "",
+    releaseYear: "",
+    type: "",
+    summary: "",
+    tags: [],
+    movieDescription: "",
+  };
 
   // Format time as MM:SS
   const formatTime = (time: number) => {
@@ -106,22 +123,16 @@ export default function PlayerProp({
   };
 
   async function fetchAudioFileAndDuration() {
-    if (!movieData || !movieData.audioLink || !movieData.id) return;
-
-    // 1. Check FireStore for duration
-    const docRef = doc(db, "movies", movieData.id);
+    if (!safeMovieData || !safeMovieData.audioLink || !safeMovieData.id) return;
+    const docRef = doc(db, "movies", safeMovieData.id);
     const docSnap = await getDoc(docRef);
-
     let fireStoreDuration = docSnap.exists() ? docSnap.data().duration : null;
-
-    // 2. Fetch audio file as blob and set audioFile state
     let audioUrl = "";
     try {
       const response = await axios.get(
-        `https://advanced-internship-api-production.up.railway.app/${movieData.audioLink}`,
+        `https://advanced-internship-api-production.up.railway.app/${safeMovieData.audioLink}`,
         { responseType: "blob" }
       );
-
       audioUrl = URL.createObjectURL(response.data);
       setAudioFile(audioUrl);
     } catch (error) {
@@ -129,21 +140,16 @@ export default function PlayerProp({
       console.log(error);
       return;
     }
-
-    // 3. If duration already exists in Firestore, set it and return
     if (fireStoreDuration) {
       setDuration(fireStoreDuration);
       return;
     }
-
-    // 4. Otherwise, extract duration from audio metadata and store in Firestore
     const tempAudio = new window.Audio(audioUrl);
     tempAudio.addEventListener(
       "loadedmetadata",
       async () => {
         const duration = tempAudio.duration;
         setDuration(duration);
-
         if (docSnap.exists()) {
           await updateDoc(docRef, { duration });
         } else {
@@ -160,63 +166,139 @@ export default function PlayerProp({
         URL.revokeObjectURL(audioFile);
       }
     };
-  }, [movieData]);
+  }, [safeMovieData]);
 
   return (
     <div className="fixed left-0 bottom-0 w-full h-[80px] bg-blue-800 z-50 flex justify-between items-center">
+      {/* Left Section: Image and Title/Director */}
       <div className="flex gap-1 ml-20">
-        {movieData && (
-          <>
-            <Image
-              src={movieData.imageLink}
-              height={30}
-              width={30}
-              alt={`${movieData.title} image`}
-              priority
-            />
-            <div className="flex flex-col justify-center ml-2 text-sm">
-              <span className="text-white">{movieData.title}</span>
-              <span className="text-gray-400">{movieData.director}</span>
-            </div>
-          </>
+        {isLoading ? (
+          <Skeleton
+            variant="circular"
+            width={30}
+            height={30}
+            sx={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}
+          />
+        ) : safeMovieData.imageLink && safeMovieData.imageLink.trim() !== "" ? (
+          <Image
+            src={safeMovieData.imageLink}
+            height={30}
+            width={30}
+            alt={`${safeMovieData.title} image`}
+            priority
+          />
+        ) : (
+          <div className="h-[30px] w-[30px] bg-gray-200 rounded-full" />
         )}
+        <div className="flex flex-col justify-center ml-2 text-sm">
+          {isLoading ? (
+            <>
+              <Skeleton
+                variant="text"
+                width={100}
+                height={16}
+                sx={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}
+              />
+              <Skeleton
+                variant="text"
+                width={80}
+                height={12}
+                sx={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}
+              />
+            </>
+          ) : (
+            <>
+              <span className="text-white">{safeMovieData.title}</span>
+              <span className="text-gray-400">{safeMovieData.director}</span>
+            </>
+          )}
+        </div>
       </div>
 
+      {/* Center Section: Player Controls */}
       <div className="flex gap-2">
-        <button onClick={skipBackward}>
+        <button
+          onClick={skipBackward}
+          disabled={isLoading}
+          className={isLoading ? "opacity-50 cursor-not-allowed" : ""}
+        >
           <BackwardIcon className="h-6 w-6 text-white cursor-pointer" />
         </button>
-        <button onClick={togglePlay}>
-          {isPlaying ? (
+        <button
+          onClick={togglePlay}
+          disabled={isLoading}
+          className={isLoading ? "opacity-50 cursor-not-allowed" : ""}
+        >
+          {isLoading ? (
+            <Skeleton
+              variant="circular"
+              width={40}
+              height={40}
+              sx={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}
+            />
+          ) : isPlaying ? (
             <PauseCircleIcon className="h-10 w-10 text-white cursor-pointer" />
           ) : (
             <PlayCircleIcon className="h-10 w-10 text-white cursor-pointer" />
           )}
         </button>
-        <button onClick={skipForward}>
+        <button
+          onClick={skipForward}
+          disabled={isLoading}
+          className={isLoading ? "opacity-50 cursor-not-allowed" : ""}
+        >
           <ForwardIcon className="h-6 w-6 text-white cursor-pointer" />
         </button>
       </div>
 
+      {/* Right Section: Progress Bar */}
       <div className="mr-40 flex items-center gap-2">
-        <span>{formatTime(timeProgress)}</span>
-        <input
-          type="range"
-          ref={progressBarRef}
-          onChange={handleProgressChange}
-          defaultValue="0"
-          className="w-32"
-        />
-        <span>{formatTime(duration || 0)}</span>
+        {isLoading ? (
+          <>
+            <Skeleton
+              variant="text"
+              width={40}
+              height={16}
+              sx={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}
+            />
+            <Skeleton
+              variant="text"
+              width={120}
+              height={16}
+              sx={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}
+            />
+            <Skeleton
+              variant="text"
+              width={40}
+              height={16}
+              sx={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}
+            />
+          </>
+        ) : (
+          <>
+            <span>{formatTime(timeProgress)}</span>
+            <input
+              type="range"
+              ref={progressBarRef}
+              onChange={handleProgressChange}
+              defaultValue="0"
+              className="w-32"
+            />
+            <span>{formatTime(duration || 0)}</span>
+          </>
+        )}
       </div>
 
-      <audio
-        src={audioFile}
-        ref={audioRef}
-        onLoadedMetadata={onLoadedMetadata}
-        onEnded={() => setIsPlaying(false)}
-        preload="auto"
-      />
+      {/* Audio Element */}
+      {audioFile && (
+        <audio
+          src={audioFile}
+          ref={audioRef}
+          onLoadedMetadata={onLoadedMetadata}
+          onEnded={() => setIsPlaying(false)}
+          preload="auto"
+        />
+      )}
     </div>
   );
 }
