@@ -6,8 +6,13 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { Pagination } from "swiper/modules";
 import CarouselProp from "./UI Props/CarouselProp";
+import { MovieItemWithDuration } from "../types";
 
-export default function Carousel({ data = [] }) {
+export default function Carousel({
+  data = [],
+}: {
+  data?: (MovieItemWithDuration | null)[];
+}) {
   return (
     <div className="w-full max-w-full min-w-0">
       <Swiper
