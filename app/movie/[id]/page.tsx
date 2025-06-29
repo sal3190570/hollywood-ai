@@ -1,6 +1,6 @@
 "use client";
 
-import { MovieItem } from "@/app/types";
+import { defaultMovieItem, MovieItem } from "@/app/types";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -9,36 +9,22 @@ import SearchBar from "@/app/components/UI Props/SearchBar";
 import LogInModal from "@/app/components/modals/LogInModal";
 import SignUpModal from "@/app/components/modals/SignUpModal";
 import ForgotPasswordModal from "@/app/components/modals/ForgotPasswordModal";
-
 import MovieDetails from "@/app/components/MovieDetails";
 import { doc, getDoc } from "@firebase/firestore";
 import { db } from "@/firebase";
-export default function Page() {
-  const MovieItem = {
-    id: "",
-    director: "",
-    title: "",
-    tagLine: "",
-    imageLink: "",
-    audioLink: "",
-    rating: "",
-    releaseYear: "",
-    type: "",
-    summary: "",
-    tags: [],
-    movieDescription: "",
-  };
 
+export default function Page() {
   const { id } = useParams();
-  const [movieData, setMovieData] = useState<MovieItem>(MovieItem);
+  const [movieData, setMovieData] = useState<MovieItem>(defaultMovieItem);
   const [error, setError] = useState<string>("");
   const [movieDuration, setMovieDuration] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   async function fetchMovieData() {
     try {
       const { data } = await axios.get(
         `https://advanced-internship-api-production.up.railway.app/movies/${id}`
       );
-
       if (data.data) {
         setMovieData(data.data);
       } else if (data.id) {
@@ -64,8 +50,17 @@ export default function Page() {
   }
 
   useEffect(() => {
-    fetchMovieData();
-    fetchMovieDuration();
+    async function fetchAllData() {
+      setIsLoading(true);
+      try {
+        await Promise.all([fetchMovieData(), fetchMovieDuration()]);
+      } catch (error) {
+        console.error("Error fetching all data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchAllData();
   }, [id]);
 
   return (
@@ -76,8 +71,8 @@ export default function Page() {
           movieData={movieData}
           error={error}
           movieDuration={movieDuration}
+          isLoading={isLoading} // Optional: only pass if MovieDetails uses it
         />
-
         <LogInModal />
         <SignUpModal />
         <ForgotPasswordModal />

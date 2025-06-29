@@ -18,6 +18,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "@/firebase";
+import { Skeleton } from "@mui/material";
 
 export default function MovieDetails({
   movieData,
@@ -39,7 +40,6 @@ export default function MovieDetails({
   const dispatch = useDispatch();
   const router = useRouter();
 
-  // Format time as MM:SS
   const formatTime = (time: number | null | undefined) => {
     if (time == null || isNaN(time)) return "00:00";
     const minutes = Math.floor(time / 60);
@@ -102,6 +102,51 @@ export default function MovieDetails({
       return () => unsubscribe();
     }
   }, [isAuthenticated, userId, movieData.id]);
+
+  if (isLoading) {
+    return (
+      <div className="w-full relative flex flex-col-reverse items-center lg:items-start lg:flex-row">
+        <div className="flex flex-col w-full max-w-5xl moving-marginLeft">
+          <div className="flex flex-col gap-2 ml-8 mt-8 border-b pb-6 border-b-gray-300">
+            <Skeleton variant="text" width="80%" height={48} />
+            <Skeleton variant="text" width="60%" height={20} />
+          </div>
+          <div className="flex mt-2 ml-8 border-b pb-10 border-b-gray-300">
+            <div className="flex flex-col gap-2 h-[25px] w-[180px] mt-2">
+              <Skeleton variant="text" width="100%" height={20} />
+              <Skeleton variant="text" width="100%" height={20} />
+            </div>
+            <div className="flex flex-col gap-2 h-[25px] w-[200px] justify-between mt-2">
+              <Skeleton variant="text" width="100%" height={20} />
+              <Skeleton variant="text" width="100%" height={20} />
+            </div>
+          </div>
+          <div className="h-[100px] w-[250px] ml-8 mt-6 flex flex-col">
+            <Skeleton variant="rectangular" width="100%" height={40} />
+            <Skeleton variant="text" width="60%" height={36} sx={{ mt: 2 }} />
+          </div>
+          <div className="flex flex-col ml-8 mt-4">
+            <Skeleton variant="text" width="40%" height={28} />
+            <div className="flex gap-4 mt-4 ml-1">
+              {[1, 2, 3].map((i) => (
+                <Skeleton
+                  key={i}
+                  variant="rectangular"
+                  width={80}
+                  height={32}
+                />
+              ))}
+            </div>
+            <Skeleton variant="text" width="100%" height={80} sx={{ mt: 2 }} />
+          </div>
+        </div>
+        <div className="flex ml-8 mt-10 justify-center w-[180px] h-[266px]">
+          <Skeleton variant="rectangular" width={180} height={266} />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       {error && <div className="text-red-500">{error}</div>}
@@ -114,7 +159,6 @@ export default function MovieDetails({
             </h1>
             <h2 className="text-sm text-gray-500">{movieData.director}</h2>
           </div>
-
           <div className="flex mt-2 ml-8 border-b pb-10 border-b-gray-300">
             <div className="flex flex-col gap-2 h-[25px] w-[180px] mt-2">
               <div className="flex items-center text-[14px] gap-1 text-black">
@@ -162,7 +206,6 @@ export default function MovieDetails({
               )}
             </button>
           </div>
-
           <div className="flex flex-col ml-8 mt-4">
             <h3 className="font-semibold text-lg">Whats it about?</h3>
             <div className="flex gap-4 mt-4 ml-1">
@@ -178,8 +221,7 @@ export default function MovieDetails({
             <p className="mt-4 text-[16px]">{movieData.movieDescription}</p>
           </div>
         </div>
-
-        <div className="flex ml-8 mt-10 justify-center w-[180px] h-full">
+        <div className="flex ml-8 mt-10 justify-center w-[180px] h-[266px]">
           {movieData.imageLink && (
             <Image
               src={movieData.imageLink}
