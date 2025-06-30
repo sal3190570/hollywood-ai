@@ -85,7 +85,7 @@ export default function Sidebar() {
           </li>
         </ul>
       </div>
-      <div className="mt-8 ml-6 flex flex-col space-y-2">
+      <div className="mt-8 ml-4 flex flex-col space-y-2">
         <h3 className="text-gray-700 text-[11px] font-normal tracking-widest">
           EXTRAS
         </h3>
