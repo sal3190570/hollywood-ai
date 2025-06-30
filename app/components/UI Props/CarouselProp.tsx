@@ -25,7 +25,7 @@ export default function CarouselProp({
 
   const hasPremium = useSelector((state: RootState) => state.user.hasPremium);
   const showPremiumLabel = item?.subscriptionRequired && !hasPremium;
-  console.log(hasPremium);
+
   // Skeleton loading state
   if (!item) {
     return (

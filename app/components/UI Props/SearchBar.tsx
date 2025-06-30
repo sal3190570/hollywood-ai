@@ -76,7 +76,7 @@ export default function SearchBar({
         />
       </div>
       {isOpen && (
-        <div className="absolute flex flex-col ml-8 top-16 w-[70%] sm:w-full sm:max-w-[420px] max-w-[420px] moving-marginLeft bg-white sm:rounded-xl outline-none shadow-lg z-50">
+        <div className="absolute flex flex-col ml-8 top-20 w-[70%] sm:w-full sm:max-w-[420px] max-w-[420px] moving-marginLeft bg-white sm:rounded-xl outline-none shadow-lg z-50">
           <h4 className="mt-4 ml-4 font-bold pb-2">Search Results</h4>
           <div className="max-h-[360px] overflow-y-auto">
             {isLoading ? (
