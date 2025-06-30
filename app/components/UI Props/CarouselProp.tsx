@@ -5,6 +5,8 @@ import React from "react";
 import { MovieItemWithDuration } from "@/app/types";
 import { Skeleton } from "@mui/material";
 import Link from "next/link";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 export default function CarouselProp({
   item,
@@ -21,6 +23,9 @@ export default function CarouselProp({
       .padStart(2, "0")}`;
   };
 
+  const hasPremium = useSelector((state: RootState) => state.user.hasPremium);
+  const showPremiumLabel = item?.subscriptionRequired && !hasPremium;
+  console.log(hasPremium);
   // Skeleton loading state
   if (!item) {
     return (
@@ -53,7 +58,7 @@ export default function CarouselProp({
     >
       <div className="flex flex-col relative h-[400px] max-w-[180px] mx-auto rounded-xl overflow-hidden">
         <div className="flex mt-6 justify-center relative">
-          {item.subscriptionRequired && (
+          {showPremiumLabel && (
             <div className="absolute -top-2 flex justify-center items-center h-[25px] w-[80px] rounded-full opacity-90 bg-purple-700 z-10">
               <span className="text-white text-xs font-semibold">Premium</span>
             </div>
