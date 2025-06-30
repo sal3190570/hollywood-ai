@@ -107,41 +107,102 @@ export default function MovieDetails({
     return (
       <div className="w-full relative flex flex-col-reverse items-center lg:items-start lg:flex-row">
         <div className="flex flex-col w-full max-w-5xl moving-marginLeft">
+          {/* Title & Director */}
           <div className="flex flex-col gap-2 ml-8 mt-8 border-b pb-6 border-b-gray-300">
-            <Skeleton variant="text" width="80%" height={48} />
-            <Skeleton variant="text" width="60%" height={20} />
+            <Skeleton
+              variant="text"
+              width="80%"
+              height={48}
+              sx={{ borderRadius: 1 }}
+            />
+            <Skeleton
+              variant="text"
+              width="40%"
+              height={20}
+              sx={{ borderRadius: 1 }}
+            />
           </div>
+          {/* Stats Row */}
           <div className="flex mt-2 ml-8 border-b pb-10 border-b-gray-300">
             <div className="flex flex-col gap-2 h-[25px] w-[180px] mt-2">
-              <Skeleton variant="text" width="100%" height={20} />
-              <Skeleton variant="text" width="100%" height={20} />
+              <Skeleton
+                variant="rectangular"
+                width="80%"
+                height={20}
+                sx={{ borderRadius: 1 }}
+              />
+              <Skeleton
+                variant="rectangular"
+                width="60%"
+                height={20}
+                sx={{ borderRadius: 1 }}
+              />
             </div>
             <div className="flex flex-col gap-2 h-[25px] w-[200px] justify-between mt-2">
-              <Skeleton variant="text" width="100%" height={20} />
-              <Skeleton variant="text" width="100%" height={20} />
+              <Skeleton
+                variant="rectangular"
+                width="80%"
+                height={20}
+                sx={{ borderRadius: 1 }}
+              />
+              <Skeleton
+                variant="rectangular"
+                width="60%"
+                height={20}
+                sx={{ borderRadius: 1 }}
+              />
             </div>
           </div>
+          {/* Buttons */}
           <div className="h-[100px] w-[250px] ml-8 mt-6 flex flex-col">
-            <Skeleton variant="rectangular" width="100%" height={40} />
-            <Skeleton variant="text" width="60%" height={36} sx={{ mt: 2 }} />
+            <Skeleton
+              variant="rectangular"
+              width="100%"
+              height={40}
+              sx={{ borderRadius: 1 }}
+            />
+            <Skeleton
+              variant="rectangular"
+              width="80%"
+              height={24}
+              sx={{ mt: 2, borderRadius: 1 }}
+            />
           </div>
+          {/* Description & Tags */}
           <div className="flex flex-col ml-8 mt-4">
-            <Skeleton variant="text" width="40%" height={28} />
+            <Skeleton
+              variant="text"
+              width="30%"
+              height={28}
+              sx={{ borderRadius: 1 }}
+            />
             <div className="flex gap-4 mt-4 ml-1">
               {[1, 2, 3].map((i) => (
                 <Skeleton
                   key={i}
                   variant="rectangular"
-                  width={80}
+                  width={70}
                   height={32}
+                  sx={{ borderRadius: 1 }}
                 />
               ))}
             </div>
-            <Skeleton variant="text" width="100%" height={80} sx={{ mt: 2 }} />
+            <Skeleton
+              variant="rectangular"
+              width="100%"
+              height={80}
+              sx={{ mt: 2, borderRadius: 1 }}
+            />
           </div>
         </div>
+        {/* Image */}
         <div className="flex ml-8 mt-10 justify-center w-[180px] h-[266px]">
-          <Skeleton variant="rectangular" width={180} height={266} />
+          <Skeleton
+            variant="rectangular"
+            width={180}
+            height={266}
+            sx={{ borderRadius: 2.5 }}
+          />
         </div>
       </div>
     );
