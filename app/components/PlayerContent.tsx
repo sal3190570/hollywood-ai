@@ -8,10 +8,12 @@ export default function PlayerContent({
   movieData,
   error,
   isLoading,
+  onAudioLoaded,
 }: {
   movieData: MovieItem;
   error: string;
   isLoading: boolean;
+  onAudioLoaded: () => void;
 }) {
   if (!movieData) return null;
 
@@ -68,7 +70,11 @@ export default function PlayerContent({
         </>
       )}
       <AudioPlayerProvider>
-        <PlayerProp movieData={movieData} isLoading={isLoading} />
+        <PlayerProp
+          movieData={movieData}
+          isLoading={isLoading}
+          onAudioLoaded={onAudioLoaded}
+        />
       </AudioPlayerProvider>
     </div>
   );

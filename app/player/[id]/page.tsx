@@ -13,34 +13,31 @@ export default function Page() {
   const { id } = useParams();
   const [movieData, setMovieData] = useState<MovieItem>(defaultMovieItem);
   const [error, setError] = useState<string>("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isMovieLoading, setIsMovieLoading] = useState(true);
+  const [isAudioLoading, setIsAudioLoading] = useState(true);
 
   async function fetchMovieData() {
-    setIsLoading(true);
+    setIsMovieLoading(true);
     try {
       const { data } = await axios.get(
         `https://advanced-internship-api-production.up.railway.app/movies/${id}`
       );
-
-      // Determine which data to use
       const movie = data.data || data;
-
       setMovieData(movie);
-      if (movie.imageLink && movie.imageLink.trim() !== "") {
-        setIsLoading(false);
-      } else {
-        setIsLoading(false);
-      }
     } catch (error) {
       setError("Failed to fetch movie");
       console.error("Error fetching data:", error);
-      setIsLoading(false);
+    } finally {
+      setIsMovieLoading(false);
     }
   }
 
   useEffect(() => {
     fetchMovieData();
   }, [id]);
+
+  // Only show real content when both movie and audio are loaded
+  const isLoading = isMovieLoading || isAudioLoading;
 
   return (
     <>
@@ -49,6 +46,7 @@ export default function Page() {
           movieData={movieData}
           error={error}
           isLoading={isLoading}
+          onAudioLoaded={() => setIsAudioLoading(false)}
         />
         <LogInModal />
         <SignUpModal />

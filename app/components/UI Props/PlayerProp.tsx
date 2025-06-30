@@ -17,9 +17,11 @@ import Skeleton from "@mui/material/Skeleton";
 export default function PlayerProp({
   movieData,
   isLoading,
+  onAudioLoaded,
 }: {
   movieData?: MovieItem;
   isLoading: boolean;
+  onAudioLoaded?: () => void;
 }) {
   const [audioFile, setAudioFile] = useState("");
   const [error, setError] = useState("");
@@ -79,6 +81,8 @@ export default function PlayerProp({
       setDuration(audioRef.current.duration);
       progressBarRef.current &&
         (progressBarRef.current.max = audioRef.current.duration.toString());
+      // Notify parent that audio is ready
+      if (onAudioLoaded) onAudioLoaded();
     }
   };
 
@@ -122,6 +126,7 @@ export default function PlayerProp({
     }
   };
 
+  // Fetch audio file and duration, and notify parent when ready
   async function fetchAudioFileAndDuration() {
     if (!safeMovieData || !safeMovieData.audioLink || !safeMovieData.id) return;
     const docRef = doc(db, "movies", safeMovieData.id);
@@ -142,6 +147,7 @@ export default function PlayerProp({
     }
     if (fireStoreDuration) {
       setDuration(fireStoreDuration);
+      if (onAudioLoaded) onAudioLoaded();
       return;
     }
     const tempAudio = new window.Audio(audioUrl);
@@ -155,10 +161,12 @@ export default function PlayerProp({
         } else {
           await setDoc(docRef, { duration }, { merge: true });
         }
+        if (onAudioLoaded) onAudioLoaded();
       },
       { once: true }
     );
   }
+
   useEffect(() => {
     fetchAudioFileAndDuration();
     return () => {
@@ -166,7 +174,8 @@ export default function PlayerProp({
         URL.revokeObjectURL(audioFile);
       }
     };
-  }, [safeMovieData]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [safeMovieData.id, safeMovieData.audioLink]);
 
   return (
     <div className="fixed left-0 bottom-0 w-full h-[80px] bg-blue-800 z-50 flex justify-between items-center">
@@ -284,6 +293,9 @@ export default function PlayerProp({
               onChange={handleProgressChange}
               defaultValue="0"
               className="w-32"
+              min={0}
+              max={duration || 0}
+              step={1}
             />
             <span>{formatTime(duration || 0)}</span>
           </>
