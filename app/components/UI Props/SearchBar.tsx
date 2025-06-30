@@ -25,28 +25,19 @@ export default function SearchBar({
       async (query: string) => {
         if (!query.trim()) {
           setSearchResults([]);
-          setIsOpen(false);
+          setIsLoading(false);
           return;
         }
-        setIsLoading(true);
         try {
-          // 1. Fetch API results
           const response = await axios.get(
             `https://advanced-internship-api-production.up.railway.app/movies?search=${query}`
           );
           const apiResults = response.data.data || response.data;
-
-          // 2. Extract movie IDs from API results
           const apiMovieIds = apiResults.map((movie: MovieItem) => movie.id);
-
-          // 3. Filter movies to get full MovieItemWithDuration objects for those IDs
           const mergedResults = movies.filter((movie) =>
             apiMovieIds.includes(movie.id)
           );
-
-          // 4. Set merged results as searchResults
           setSearchResults(mergedResults);
-          setIsOpen(true);
         } catch (error) {
           console.error("Error fetching search results:", error);
           setSearchResults([]);
@@ -56,8 +47,22 @@ export default function SearchBar({
       },
       [movies]
     ),
-    300 // debounce delay
+    300
   );
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+    if (query.trim()) {
+      setIsOpen(true);
+      setIsLoading(true);
+    } else {
+      setIsOpen(false);
+      setIsLoading(false);
+      setSearchResults([]);
+    }
+    debouncedFetchSearchResults(query);
+  };
 
   return (
     <div className="flex relative w-full h-20 items-center justify-start py-2 outline outline-gray-200">
@@ -68,11 +73,7 @@ export default function SearchBar({
           className="w-full text-black rounded-full outline-none px-2 py-1"
           placeholder="Search for movies..."
           value={searchQuery}
-          onChange={(event) => {
-            const query = event.target.value;
-            setSearchQuery(query);
-            debouncedFetchSearchResults(query);
-          }}
+          onChange={handleInputChange}
         />
       </div>
       {isOpen && (
