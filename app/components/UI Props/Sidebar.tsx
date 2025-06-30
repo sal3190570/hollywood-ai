@@ -59,7 +59,7 @@ export default function Sidebar() {
           >
             <div className="flex items-center gap-2 ml-2">
               <Squares2X2Icon className="w-5 h-5 mt-[2px] -ml-2" />
-              <span>DashBoard</span>
+              <span>Dashboard</span>
             </div>
           </Link>
           <Link
