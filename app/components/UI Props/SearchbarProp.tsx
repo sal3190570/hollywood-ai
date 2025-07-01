@@ -20,27 +20,28 @@ export default function SearchbarProp({
   };
 
   return (
-    <Link
-      href={`/movie/${movie.id}`}
-      className="relative flex w-full h-fit border-t-[1px] border-gray-300 p-4 hover:bg-gray-100 transition"
-    >
-      {movie.imageLink && movie.imageLink.trim() !== "" ? (
-        <Image
-          src={movie.imageLink}
-          height={60}
-          width={60}
-          alt={`${movie.title} poster`}
-          className="object-cover"
-        />
-      ) : (
-        <div className="h-[60px] w-[60px] bg-gray-200" />
-      )}
-      <div className="flex flex-col ml-4 gap-1">
-        <span className="font-semibold">{movie.title}</span>
-        <span className="text-sm text-gray-500">{movie.director}</span>
-        <span className="text-sm mt-1 text-gray-500 flex gap-1 ">
-          <ClockIcon className="h-5 w-fit" /> {formatTime(movie.duration)}
-        </span>
+    <Link href={`/movie/${movie.id}`} className="block w-full">
+      <div className="flex items-center w-full border-t border-gray-300 hover:bg-gray-200 transition box-border px-4 py-3">
+        {movie.imageLink && movie.imageLink.trim() !== "" ? (
+          <Image
+            src={movie.imageLink}
+            height={60}
+            width={60}
+            alt={`${movie.title} poster`}
+            className="object-cover flex-shrink-0"
+          />
+        ) : (
+          <div className="h-[60px] w-[60px] bg-gray-200 flex-shrink-0" />
+        )}
+        <div className="flex flex-col ml-4 gap-1 overflow-hidden">
+          <span className="font-semibold truncate">{movie.title}</span>
+          <span className="text-sm text-gray-500 truncate">
+            {movie.director}
+          </span>
+          <span className="text-sm mt-1 text-gray-500 flex gap-1 items-center">
+            <ClockIcon className="h-5 w-5" /> {formatTime(movie.duration)}
+          </span>
+        </div>
       </div>
     </Link>
   );

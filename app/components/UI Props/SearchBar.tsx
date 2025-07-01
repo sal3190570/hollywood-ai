@@ -77,7 +77,7 @@ export default function SearchBar({
         />
       </div>
       {isOpen && (
-        <div className="absolute flex flex-col ml-8 top-20 w-[70%] sm:w-full sm:max-w-[420px] max-w-[420px] moving-marginLeft bg-white sm:rounded-xl outline-none shadow-lg z-50">
+        <div className="absolute flex flex-col ml-8 top-20 w-[70%] sm:w-full sm:max-w-[420px] max-w-[420px] moving-marginLeft bg-white rounded-xl outline-none shadow-[0_8px_32px_0_rgba(60,60,60,0.24),0_1.5px_4px_0_rgba(0,0,0,0.08)] z-50 overflow-hidden">
           <h4 className="mt-4 ml-4 font-bold pb-2">Search Results</h4>
           <div className="max-h-[360px] overflow-y-auto">
             {isLoading ? (
@@ -85,7 +85,7 @@ export default function SearchBar({
                 {[...Array(6)].map((_, index) => (
                   <div
                     key={index}
-                    className="relative flex w-full h-fit border-t-[1px] border-gray-300 p-4"
+                    className="relative flex w-full h-fit border-t border-gray-300 box-border px-4 py-3"
                   >
                     <Skeleton variant="rectangular" width={60} height={60} />
                     <div className="flex flex-col ml-4 gap-1 w-full">
@@ -101,7 +101,7 @@ export default function SearchBar({
                 <SearchbarProp key={movie.id} movie={movie} />
               ))
             ) : (
-              <div className="flex flex-col justify-center items-center h-[100px] border-t-[1px] border-gray-300">
+              <div className="flex flex-col justify-center items-center h-[100px] border-t border-gray-300">
                 <span className="font-semibold text-xl">No Results.</span>
                 <span className="text-gray-500">Please try again.</span>
               </div>
