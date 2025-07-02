@@ -59,10 +59,14 @@ export default function CarouselProp({
       <div className="flex flex-col relative h-[400px] max-w-[180px] mx-auto rounded-xl overflow-hidden">
         <div className="flex mt-6 justify-center relative">
           {showPremiumLabel && (
-            <div className="absolute -top-2 flex justify-center items-center h-[25px] w-[80px] rounded-full opacity-90 bg-purple-700 z-10">
-              <span className="text-white text-xs font-semibold">Premium</span>
+            <div
+              className="absolute -top-2 flex justify-center items-center h-[20px] w-[60px] rounded-full z-10"
+              style={{ background: "rgba(46, 16, 101, 0.75)" }}
+            >
+              <span className="text-white text-[10px] ">Premium</span>
             </div>
           )}
+
           {item.imageLink ? (
             <Image
               src={item.imageLink}
