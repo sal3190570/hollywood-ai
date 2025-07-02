@@ -114,7 +114,7 @@ export default function Footer() {
               />
               <button
                 type="button"
-                className="w-[200px] px-8 py-5 text-white font-bold bg-[#ffffff11] rounded-lg text-sm"
+                className="w-[200px] cursor-not-allowed px-8 py-5 text-white font-bold bg-[#ffffff11] rounded-lg text-sm"
               >
                 Subscribe
               </button>

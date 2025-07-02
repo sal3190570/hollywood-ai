@@ -12,10 +12,13 @@ export default function Steps() {
               So, how does it work?
             </h2>
             <div className="flex flex-col sm:flex-row justify-center items-stretch w-full relative">
-              <div className="absolute top-[32px] left-1/2 transform -translate-x-1/2 w-[70%] border-t border-white/10 sm:hidden"></div>
-              <div className="flex flex-col sm:flex-row gap-12 justify-center items-center sm:items-start w-full">
+              {/* MOBILE LINE */}
+              <div className="absolute top-[32px] left-1/2 -translate-x-1/2 w-[70%] border-t-2 border-white/20 sm:hidden z-0"></div>
+              {/* DESKTOP LINE */}
+              <div className="hidden sm:block absolute left-1/2 -translate-x-1/2 top-[32px] w-[520px] border-t-2 border-white/20 z-0"></div>
+              <div className="flex flex-col sm:flex-row gap-12 justify-center items-center sm:items-start w-full relative z-10">
                 {/* Step 1 */}
-                <div className="flex flex-col items-center p-[0_20px] transition-transform duration-400 group hover:-translate-y-[12px]">
+                <div className="flex flex-col items-center transition-transform duration-400 group hover:-translate-y-[12px]">
                   <div className="w-[64px] h-[64px] rounded-full border-2 border-white/10 bg-black flex items-center justify-center text-[20px] text-white mb-[40px] transition-colors duration-400 group-hover:bg-white group-hover:text-black group-hover:scale-110 relative z-10">
                     <span>1</span>
                   </div>
@@ -25,7 +28,7 @@ export default function Steps() {
                   </p>
                 </div>
                 {/* Step 2 */}
-                <div className="flex flex-col items-center p-[0_20px] transition-transform duration-400 group hover:-translate-y-[12px]">
+                <div className="flex flex-col items-center transition-transform duration-400 group hover:-translate-y-[12px]">
                   <div className="w-[64px] h-[64px] rounded-full border-2 border-white/10 bg-black flex items-center justify-center text-[20px] text-white mb-[40px] transition-colors duration-400 group-hover:bg-white group-hover:text-black group-hover:scale-110 relative z-10">
                     <span>2</span>
                   </div>
@@ -35,7 +38,7 @@ export default function Steps() {
                   </p>
                 </div>
                 {/* Step 3 */}
-                <div className="flex flex-col items-center p-[0_20px] transition-transform duration-400 group hover:-translate-y-[12px]">
+                <div className="flex flex-col items-center transition-transform duration-400 group hover:-translate-y-[12px]">
                   <div className="w-[64px] h-[64px] rounded-full border-2 border-white/10 bg-black flex items-center justify-center text-[20px] text-white mb-[40px] transition-colors duration-400 group-hover:bg-white group-hover:text-black group-hover:scale-110 relative z-10">
                     <span>3</span>
                   </div>
