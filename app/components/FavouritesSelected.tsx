@@ -22,11 +22,13 @@ export default function FavouritesSelected({
   favouriteMoviesData,
   isLoading,
   isAuthenticated,
+  isAuthLoading,
   allMovies = [],
 }: {
   favouriteMoviesData: MovieItem[];
   isLoading: boolean;
-  isAuthenticated: boolean;
+  isAuthenticated: boolean | null;
+  isAuthLoading: boolean;
   allMovies?: MovieItemWithDuration[];
 }) {
   const carouselData: MovieItemWithDuration[] = favouriteMoviesData.map(
@@ -39,7 +41,8 @@ export default function FavouritesSelected({
     }
   );
 
-  if (isLoading) {
+  // Show skeletons while loading or auth is loading
+  if (isLoading || isAuthLoading) {
     return (
       <div className="w-full px-4 moving-marginLeft md:max-w-[1200px] md:ml-10">
         {[...Array(6)].map((_, index) => (
@@ -48,14 +51,34 @@ export default function FavouritesSelected({
       </div>
     );
   }
-  console.log(allMovies);
-  return (
-    <div className="w-full px-4 moving-marginLeft md:max-w-[1200px] md:ml-10">
-      {isAuthenticated && favouriteMoviesData.length === 0 && <NoFavourites />}
-      {!isAuthenticated && (
+
+  // Show login prompt only if auth is resolved and user is not authenticated
+  if (!isAuthenticated && !isAuthLoading) {
+    return (
+      <div className="w-full px-4 moving-marginLeft md:max-w-[1200px] md:ml-10">
         <LoginProp text={"Sign in to see your favourite movies"} />
-      )}
-      {isAuthenticated && <Carousel data={carouselData} />}
-    </div>
-  );
+      </div>
+    );
+  }
+
+  // Show "No Favourites" if authenticated but none saved
+  if (isAuthenticated && favouriteMoviesData.length === 0) {
+    return (
+      <div className="w-full px-4 moving-marginLeft md:max-w-[1200px] md:ml-10">
+        <NoFavourites />
+      </div>
+    );
+  }
+
+  // Show carousel if authenticated and there are favourites
+  if (isAuthenticated) {
+    return (
+      <div className="w-full px-4 moving-marginLeft md:max-w-[1200px] md:ml-10">
+        <Carousel data={carouselData} />
+      </div>
+    );
+  }
+
+  // Fallback (should not be reached)
+  return null;
 }

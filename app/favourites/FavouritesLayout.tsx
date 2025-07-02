@@ -28,7 +28,7 @@ export default function FavouritesLayout({
       {/* Sidebar */}
       <div
         className={`
-          fixed md:static inset-y-0 left-0 w-[225px] h-dvh bg-white flex-col outline outline-gray-200 z-30
+          fixed md:static inset-y-0 left-0 w-[225px] h-dvh bg-white flex-col border border-gray-100 z-30
           transition-transform duration-300 ease-in-out
           ${
             sidebarOpen ? "translate-x-0" : "-translate-x-full"

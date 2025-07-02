@@ -5,6 +5,7 @@ import {
   signInUser,
   signOutUser,
   setPremiumStatus,
+  setAuthLoading,
 } from "@/redux/slices/userSlice";
 import { useDispatch } from "react-redux";
 import { onAuthStateChanged } from "firebase/auth";
@@ -25,6 +26,8 @@ export default function AuthListener() {
 
   useEffect(() => {
     let unsubscribeUser: (() => void) | null = null;
+
+    dispatch(setAuthLoading(true));
 
     const unsubscribeAuth = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
@@ -79,6 +82,7 @@ export default function AuthListener() {
           { merge: true }
         );
 
+        // Set up onSnapshot and set loading to false only after user data is in Redux
         unsubscribeUser = onSnapshot(userRef, (doc) => {
           const data = doc.data();
           dispatch(
@@ -92,6 +96,7 @@ export default function AuthListener() {
             })
           );
           dispatch(setPremiumStatus(data?.isPremium || false));
+          dispatch(setAuthLoading(false));
         });
 
         dispatch(setPremiumStatus(hasActiveSubscription));
@@ -99,6 +104,7 @@ export default function AuthListener() {
         if (unsubscribeUser) unsubscribeUser();
         dispatch(signOutUser());
         dispatch(setPremiumStatus(false));
+        dispatch(setAuthLoading(false));
       }
     });
 

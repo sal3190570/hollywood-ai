@@ -12,24 +12,70 @@ import { db } from "@/firebase";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import axios from "axios";
-import { MovieItem, MovieItemWithDuration } from "../types";
+import { MovieItem } from "../types";
 import { useEffect, useState } from "react";
 
 export default function Page() {
-  const [favouriteMoviesIds, setFavouriteMoviesIds] = useState<string[] | []>(
-    []
-  );
+  const [favouriteMoviesIds, setFavouriteMoviesIds] = useState<string[]>([]);
   const [favouriteMoviesData, setFavouriteMoviesData] = useState<MovieItem[]>(
     []
   );
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+
+  // Redux selectors
   const userId = useSelector((state: RootState) => state.user.uid);
   const isAuthenticated = useSelector(
     (state: RootState) => state.user.isAuthenticated
   );
+  const isAuthLoading = useSelector(
+    (state: RootState) => state.user.isAuthLoading
+  );
   const allMovies = useSelector((state: RootState) => state.movies.allMovies);
 
+  // Fetch favourites only after auth state is resolved
+  useEffect(() => {
+    if (isAuthLoading) return;
+
+    async function fetchFavourites() {
+      if (!userId) {
+        setFavouriteMoviesIds([]);
+        setFavouriteMoviesData([]);
+        setIsLoading(false);
+        return;
+      }
+      setIsLoading(true);
+      try {
+        const userDocRef = doc(db, "users", userId);
+        const userDocSnap = await getDoc(userDocRef);
+        if (!userDocSnap.exists() || !userDocSnap.data()?.favourites) {
+          setFavouriteMoviesIds([]);
+          setFavouriteMoviesData([]);
+          setIsLoading(false);
+          return;
+        }
+        const favourites = userDocSnap.data()?.favourites || [];
+        setFavouriteMoviesIds(favourites);
+        const movieDataPromises = favourites.map((id: string) =>
+          fetchMovieData(id)
+        );
+        const movieDataResults = await Promise.all(movieDataPromises);
+        setFavouriteMoviesData(
+          movieDataResults.filter((item): item is MovieItem => item !== null)
+        );
+      } catch (err) {
+        setError("Failed to fetch some movies");
+        setFavouriteMoviesIds([]);
+        setFavouriteMoviesData([]);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchFavourites();
+  }, [userId, isAuthLoading]);
+
+  // Helper for fetching movie details
   async function fetchMovieData(id: string): Promise<MovieItem | null> {
     try {
       const { data } = await axios.get(
@@ -45,47 +91,37 @@ export default function Page() {
     }
   }
 
-  useEffect(() => {
-    async function fetchFavourites() {
-      if (!userId) {
-        setFavouriteMoviesIds([]);
-        setFavouriteMoviesData([]);
-        setIsLoading(false);
-        return;
-      }
-      setIsLoading(true);
-      const userDocRef = doc(db, "users", userId);
-      const userDocSnap = await getDoc(userDocRef);
-      if (!userDocSnap.exists() || !userDocSnap.data()?.favourites) {
-        setFavouriteMoviesIds([]);
-        setFavouriteMoviesData([]);
-        setIsLoading(false);
-        return;
-      }
-      const favourites = userDocSnap.data()?.favourites || [];
-      setFavouriteMoviesIds(favourites);
-      const movieDataPromises = favourites.map((id: string) =>
-        fetchMovieData(id)
-      );
-      const movieDataResults = await Promise.all(movieDataPromises);
-      setFavouriteMoviesData(
-        movieDataResults.filter((item): item is MovieItem => item !== null)
-      );
-      setIsLoading(false);
-    }
-    if (userId) fetchFavourites();
-    else setIsLoading(false); // Ensure loading is false if no user
-  }, [userId]);
+  // Show skeletons for the whole page until auth is resolved and data is loaded
+  if (isAuthLoading || isLoading) {
+    return (
+      <FavouritesLayout>
+        <SearchBar movies={allMovies} />
+        <FavouritesTitle isLoading={true} favouriteMoviesIds={[]} />
+        <FavouritesSelected
+          isLoading={true}
+          favouriteMoviesData={[]}
+          isAuthenticated={false}
+          isAuthLoading={true}
+          allMovies={allMovies}
+        />
+      </FavouritesLayout>
+    );
+  }
 
+  // Show the real content after loading is complete
   return (
     <FavouritesLayout>
       <SearchBar movies={allMovies} />
-      <FavouritesTitle favouriteMoviesIds={favouriteMoviesIds} />
+      <FavouritesTitle
+        favouriteMoviesIds={favouriteMoviesIds}
+        isLoading={false}
+      />
 
       <FavouritesSelected
         favouriteMoviesData={favouriteMoviesData}
-        isLoading={isLoading}
+        isLoading={false}
         isAuthenticated={isAuthenticated}
+        isAuthLoading={false}
         allMovies={allMovies}
       />
 
