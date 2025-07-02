@@ -59,7 +59,7 @@ export default function Footer() {
       {/* Links Section */}
       <section
         id="links"
-        className="w-full border-t border-[#ffffff1f] border-b border-[#ffffff1f]"
+        className="w-full border-t border-[#ffffff1f] border-b"
       >
         <div className="max-w-[1280px] mx-auto px-5 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row justify-between items-center gap-7">
           <Image
