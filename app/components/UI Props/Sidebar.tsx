@@ -34,7 +34,7 @@ export default function Sidebar() {
   }
 
   return (
-    <div className="w-[225px] h-dvh bg-white flex-col border-t border-x border-gray-200">
+    <div className="w-[225px] h-dvh bg-white flex-col border-t border-x-[1px] border-gray-100">
       <div className="pt-6 ml-5">
         <div className="relative h-[40px] w-[150px]">
           <Image

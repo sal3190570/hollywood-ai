@@ -41,13 +41,13 @@ export default function SettingsContent() {
           )}
 
           {/* Border between sections */}
-          <div className="h-1 border-b-2 border-gray-200 w-[calc(100%-32px)] max-w-[95%] my-6"></div>
+          <div className="h-1 border-b-[1px] border-gray-200 w-[calc(100%-32px)] max-w-[95%] my-6"></div>
 
           <div className="flex flex-col gap-2">
             <h2 className="font-semibold">Email</h2>
             <span>{email}</span>
           </div>
-          <div className="h-1 border-b-2 border-gray-200 w-[calc(100%-32px)] max-w-[95%] my-6"></div>
+          <div className="h-1 border-b-[1px] border-gray-200 w-[calc(100%-32px)] max-w-[95%] my-6"></div>
         </div>
       ) : (
         <LoginProp text="Sign in to see your account settings" />
