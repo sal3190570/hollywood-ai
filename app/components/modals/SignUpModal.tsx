@@ -104,11 +104,14 @@ export default function SignUpModal() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (!currentUser) return;
+      // --- FIX: Always use a string for email ---
+      const email = currentUser.email ?? "";
+      const username = email ? email.split("@")[0] : "";
       dispatch(
         signInUser({
           name: "",
-          username: currentUser.email!.split("@")[0],
-          email: currentUser.email,
+          username,
+          email,
           uid: currentUser.uid,
         })
       );
