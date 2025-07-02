@@ -37,7 +37,6 @@ export default function PlayerProp({
     progressBarRef,
   } = useAudioPlayerContext();
 
-  // Safe default for movieData
   const safeMovieData = movieData || {
     id: "",
     director: "",
@@ -53,7 +52,6 @@ export default function PlayerProp({
     movieDescription: "",
   };
 
-  // Format time as MM:SS
   const formatTime = (time: number) => {
     if (isNaN(time)) return "00:00";
     const minutes = Math.floor(time / 60);
@@ -63,10 +61,8 @@ export default function PlayerProp({
       .padStart(2, "0")}`;
   };
 
-  // Handle play/pause
   const togglePlay = () => setIsPlaying(!isPlaying);
 
-  // Handle skip forward/backward (15 seconds)
   const skipForward = () => {
     audioRef.current && (audioRef.current.currentTime += 15);
   };
@@ -75,18 +71,15 @@ export default function PlayerProp({
     audioRef.current && (audioRef.current.currentTime -= 15);
   };
 
-  // Update duration when metadata loads
   const onLoadedMetadata = () => {
     if (audioRef.current) {
       setDuration(audioRef.current.duration);
       progressBarRef.current &&
         (progressBarRef.current.max = audioRef.current.duration.toString());
-      // Notify parent that audio is ready
       if (onAudioLoaded) onAudioLoaded();
     }
   };
 
-  // Animation frame for smooth progress bar updates
   const playAnimationRef = useRef<number | null>(null);
 
   const updateProgress = () => {
@@ -118,7 +111,6 @@ export default function PlayerProp({
     };
   }, [isPlaying]);
 
-  // Handle progress bar change
   const handleProgressChange = () => {
     if (audioRef.current && progressBarRef.current) {
       audioRef.current.currentTime = Number(progressBarRef.current.value);
@@ -126,7 +118,6 @@ export default function PlayerProp({
     }
   };
 
-  // Fetch audio file and duration, and notify parent when ready
   async function fetchAudioFileAndDuration() {
     if (!safeMovieData || !safeMovieData.audioLink || !safeMovieData.id) return;
     const docRef = doc(db, "movies", safeMovieData.id);
@@ -178,128 +169,138 @@ export default function PlayerProp({
   }, [safeMovieData.id, safeMovieData.audioLink]);
 
   return (
-    <div className="fixed left-0 bottom-0 w-full h-[80px] bg-blue-800 z-50 flex justify-between items-center">
-      {/* Left Section: Image and Title/Director */}
-      <div className="flex gap-1 ml-20">
+    <div
+      className="
+        fixed left-0 bottom-0 w-full z-50
+        bg-neutral-900 border-t border-neutral-800
+        flex items-center justify-between
+        px-6 py-3
+        min-h-[70px]
+        shadow-xl
+      "
+    >
+      {/* Left: Cover & Info */}
+      <div className="flex items-center gap-3 min-w-0 w-[240px]">
         {isLoading ? (
-          <Skeleton
-            variant="circular"
-            width={30}
-            height={30}
-            sx={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}
-          />
-        ) : safeMovieData.imageLink && safeMovieData.imageLink.trim() !== "" ? (
+          <Skeleton variant="circular" width={44} height={44} />
+        ) : safeMovieData.imageLink ? (
           <Image
             src={safeMovieData.imageLink}
-            height={40}
-            width={40}
+            height={44}
+            width={44}
             alt={`${safeMovieData.title} image`}
+            className="rounded-lg object-cover bg-gray-200"
             priority
-            className="w-auto"
           />
         ) : (
-          <div className="h-[30px] w-[30px] bg-gray-200 rounded-full" />
+          <div className="h-11 w-11 bg-gray-800 rounded-lg" />
         )}
-        <div className="flex flex-col justify-center ml-2 text-sm">
+        <div className="flex flex-col justify-center min-w-0">
           {isLoading ? (
             <>
-              <Skeleton
-                variant="text"
-                width={100}
-                height={16}
-                sx={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}
-              />
-              <Skeleton
-                variant="text"
-                width={80}
-                height={12}
-                sx={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}
-              />
+              <Skeleton variant="text" width={100} height={18} />
+              <Skeleton variant="text" width={60} height={14} />
             </>
           ) : (
             <>
-              <span className="text-white">{safeMovieData.title}</span>
-              <span className="text-gray-400">{safeMovieData.director}</span>
+              <span className="text-sm font-medium text-white truncate">
+                {safeMovieData.title}
+              </span>
+              <span className="text-xs text-neutral-300 truncate">
+                {safeMovieData.director}
+              </span>
             </>
           )}
         </div>
       </div>
 
-      {/* Center Section: Player Controls */}
-      <div className="flex gap-2">
+      {/* Center: Controls */}
+      <div className="flex items-center gap-2">
         <button
           onClick={skipBackward}
           disabled={isLoading}
-          className={isLoading ? "opacity-50 cursor-not-allowed" : ""}
+          className="p-1 rounded-full hover:bg-neutral-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
+          aria-label="Back 15 seconds"
         >
-          <BackwardIcon className="h-6 w-6 text-white cursor-pointer" />
+          <BackwardIcon className="h-5 w-5 text-white" />
         </button>
         <button
           onClick={togglePlay}
           disabled={isLoading}
-          className={isLoading ? "opacity-50 cursor-not-allowed" : ""}
+          className="p-2 rounded-full bg-orange-500 hover:bg-orange-600 transition shadow disabled:opacity-50 disabled:cursor-not-allowed"
+          aria-label={isPlaying ? "Pause" : "Play"}
         >
           {isLoading ? (
-            <Skeleton
-              variant="circular"
-              width={40}
-              height={40}
-              sx={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}
-            />
+            <Skeleton variant="circular" width={28} height={28} />
           ) : isPlaying ? (
-            <PauseCircleIcon className="h-10 w-10 text-white cursor-pointer" />
+            <PauseCircleIcon className="h-7 w-7 text-white" />
           ) : (
-            <PlayCircleIcon className="h-10 w-10 text-white cursor-pointer" />
+            <PlayCircleIcon className="h-7 w-7 text-white" />
           )}
         </button>
         <button
           onClick={skipForward}
           disabled={isLoading}
-          className={isLoading ? "opacity-50 cursor-not-allowed" : ""}
+          className="p-1 rounded-full hover:bg-neutral-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
+          aria-label="Forward 15 seconds"
         >
-          <ForwardIcon className="h-6 w-6 text-white cursor-pointer" />
+          <ForwardIcon className="h-5 w-5 text-white" />
         </button>
       </div>
 
-      {/* Right Section: Progress Bar */}
-      <div className="mr-40 flex items-center gap-2">
-        {isLoading ? (
-          <>
-            <Skeleton
-              variant="text"
-              width={40}
-              height={16}
-              sx={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}
-            />
-            <Skeleton
-              variant="text"
-              width={120}
-              height={16}
-              sx={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}
-            />
-            <Skeleton
-              variant="text"
-              width={40}
-              height={16}
-              sx={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}
-            />
-          </>
-        ) : (
-          <>
-            <span>{formatTime(timeProgress)}</span>
-            <input
-              type="range"
-              ref={progressBarRef}
-              onChange={handleProgressChange}
-              defaultValue="0"
-              className="w-32"
-              min={0}
-              max={duration || 0}
-              step={1}
-            />
-            <span>{formatTime(duration || 0)}</span>
-          </>
-        )}
+      {/* Right: Progress Bar + Time */}
+      <div className="flex flex-col items-end w-[260px]">
+        <div className="flex items-center gap-2 w-full">
+          {isLoading ? (
+            <>
+              <Skeleton variant="text" width={32} height={16} />
+              <Skeleton variant="rectangular" width={120} height={8} />
+              <Skeleton variant="text" width={32} height={16} />
+            </>
+          ) : (
+            <>
+              <span className="text-xs text-neutral-400 tabular-nums w-10 text-right">
+                {formatTime(timeProgress)}
+              </span>
+              <input
+                type="range"
+                ref={progressBarRef}
+                onChange={handleProgressChange}
+                defaultValue="0"
+                // Orange slider and smaller thumb
+                className="
+                  w-[120px] accent-orange-500
+                  h-1.5 rounded-lg
+                  bg-neutral-700
+                  transition
+                  [&::-webkit-slider-thumb]:appearance-none
+                  [&::-webkit-slider-thumb]:w-2
+                  [&::-webkit-slider-thumb]:h-2
+                  [&::-webkit-slider-thumb]:rounded-full
+                  [&::-webkit-slider-thumb]:bg-orange-500
+                  [&::-webkit-slider-thumb]:shadow
+                  [&::-webkit-slider-thumb]:transition
+                  [&::-moz-range-thumb]:appearance-none
+                  [&::-moz-range-thumb]:w-2
+                  [&::-moz-range-thumb]:h-2
+                  [&::-moz-range-thumb]:rounded-full
+                  [&::-moz-range-thumb]:bg-orange-500
+                  [&::-ms-thumb]:appearance-none
+                  [&::-ms-thumb]:w-2
+                  [&::-ms-thumb]:h-2
+                  [&::-ms-thumb]:rounded-full
+                  [&::-ms-thumb]:bg-orange-500
+                "
+                min={0}
+                max={duration || 0}
+                step={1}
+              />
+              <span className="text-xs text-neutral-400 tabular-nums w-10 text-left">
+                {formatTime(duration || 0)}
+              </span>
+            </>
+          )}
+        </div>
       </div>
 
       {/* Audio Element */}
