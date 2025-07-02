@@ -54,6 +54,8 @@ export default function MovieDetails({
       dispatch(openLogInModal());
       return;
     }
+    // --- FIX: Ensure userId is a string ---
+    if (typeof userId !== "string" || !userId) return;
     const userRef = doc(db, "users", userId);
     try {
       if (isFavourite) {
@@ -91,7 +93,8 @@ export default function MovieDetails({
   }
 
   useEffect(() => {
-    if (isAuthenticated && userId) {
+    // --- FIX: Ensure userId is a string ---
+    if (isAuthenticated && typeof userId === "string" && userId) {
       const userRef = doc(db, "users", userId);
       const unsubscribe = onSnapshot(userRef, (doc) => {
         const data = doc.data();
