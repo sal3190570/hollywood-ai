@@ -38,7 +38,8 @@ export default function Page() {
     if (isAuthLoading) return;
 
     async function fetchFavourites() {
-      if (!userId) {
+      // --- FIX: Explicitly check that userId is a string ---
+      if (typeof userId !== "string" || !userId) {
         setFavouriteMoviesIds([]);
         setFavouriteMoviesData([]);
         setIsLoading(false);
