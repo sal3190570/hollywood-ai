@@ -2,7 +2,7 @@
 
 <img width="1440" alt="HollywoodAI Image" src="https://i.postimg.cc/xjm11Td4/Hollywood-AI-App.png">
 
-Developed and deployed a user-friendly platform for AI-powered film summaries, achieving a 95% satisfaction rate based on feedback on accuracy and readability, using Next.js. TypeScript, Firebase.
+Created and launched an intuitive platform for AI-driven film summaries using Next.js, TypeScript, and Firebase, resulting in a 95% satisfaction rate for accuracy and readability based on user feedback.
 
 ## Install Packages
 
