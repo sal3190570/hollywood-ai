@@ -7,7 +7,7 @@ Developed and deployed a user-friendly platform for AI-powered film summaries, a
 ## Install Packages
 
 ```bash
-npm i
+npm install
 ```
 
 ## Setup .env file
