@@ -7,7 +7,7 @@ Created and launched an intuitive platform for AI-driven film summaries using Ne
 ## Install Packages
 
 ```bash
-npm install
+npm i
 ```
 
 ## Setup .env file
